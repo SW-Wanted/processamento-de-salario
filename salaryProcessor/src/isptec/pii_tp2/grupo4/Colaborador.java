@@ -5,6 +5,7 @@
 package isptec.pii_tp2.grupo4;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,4 +19,29 @@ public class Colaborador {
     public Funcao Funcao;
     public LocalDate DataAdmissao;
     public String email;
+    
+    public static ArrayList<Colaborador> colaboradores;
+    
+    public void Cadastrar(Colaborador colaborador)
+    {
+        colaboradores.add(colaborador);
+    }
+    
+    public Colaborador Actualizar(Colaborador colaborador)
+    {
+        return colaborador;
+    }
+    
+    public void Desactivar(Colaborador colaborador)
+    {
+        
+    }
+    
+    public void Imprimir()
+    {
+        for (Colaborador c : colaboradores)
+        {
+            System.out.println(c.nome);
+        }
+    }
 }

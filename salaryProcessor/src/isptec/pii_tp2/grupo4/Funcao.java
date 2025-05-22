@@ -4,6 +4,8 @@
  */
 package isptec.pii_tp2.grupo4;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author hp
@@ -13,4 +15,6 @@ public class Funcao {
     public String nome;
     public double salarioBase;
     public double bonus;
+    
+    public static ArrayList<Funcao> funcoes;
 }
