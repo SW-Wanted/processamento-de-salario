@@ -22,6 +22,11 @@ public class Colaborador {
     
     public static ArrayList<Colaborador> colaboradores;
     
+    public Colaborador()
+    {
+        
+    }
+    
     public void Cadastrar(Colaborador colaborador)
     {
         colaboradores.add(colaborador);

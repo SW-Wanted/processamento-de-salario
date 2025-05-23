@@ -4,6 +4,8 @@
  */
 package isptec.pii_tp2.grupo4;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 /**
  *
@@ -15,6 +17,7 @@ public class SalaryProcessor {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Colaborador.colaboradores = new ArrayList<Colaborador>();
         Menu();
     }
     
@@ -66,7 +69,33 @@ public class SalaryProcessor {
                     System.out.println("------------------------------");
                     System.out.print("Escolha uma opcao: ");
                     op1 = input.nextInt();
-                    objeto.Cadastrar(Usuario);
+                    
+                    
+                    switch (op1) {
+                        case 1:
+                            Scanner sc = new Scanner(System.in);
+                            Colaborador colaborador = new Colaborador();
+                            colaborador.numero = sc.nextLine();
+                            colaborador.nome = sc.nextLine();
+                            colaborador.morada = sc.nextLine();
+                            colaborador.morada = sc.nextLine();
+                            colaborador.email = sc.nextLine();
+                            System.out.println("----- FUNCCOES -----");
+                            Funcao.Imprimir();
+                            System.out.println("Escolhe uma funcao: ");
+                            int  op2 = sc.nextInt();
+                            Optional<Funcao> funcao = Funcao.funcoes.stream()
+                                        .filter(f -> f.codigo == op2)
+                                        .findFirst();
+                            Funcao f;
+                            if (funcao.isPresent())
+                                    f = funcao.get();
+                            colaborador.Funcao = f;
+                            colaborador.Cadastrar(colaborador);
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
                     break;
                 case 2:
                     System.out.println("1. Criar");
