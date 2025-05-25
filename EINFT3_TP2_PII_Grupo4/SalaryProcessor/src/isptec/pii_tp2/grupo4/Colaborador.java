@@ -104,12 +104,12 @@ public class Colaborador {
             System.out.print("Informe o nome: ");
             nome = sc.nextLine();
             if (!Validador.hasContent(nome)) {
-                System.out.println("O nome do colaborador nao pode ser vazio.");
+                System.out.println("O nome nao pode ser vazio.");
             }
         } while (!Validador.hasContent(nome));
         novo.setNome(nome);
 
-        // ...email obrigatorio ja validado...
+        // Email
         String email;
         do{
             System.out.print("Informe o email: ");
@@ -125,7 +125,7 @@ public class Colaborador {
         }while(!Validador.isEmailValido(email) || email == null);
         novo.setEmail(email);
 
-        // Campo obrigatorio: morada
+        // Morada
         String morada;
         do {
             System.out.print("Informe a morada: ");
@@ -136,11 +136,11 @@ public class Colaborador {
         } while (!Validador.hasContent(morada));
         novo.setMorada(morada);
 
-        // ...data de nascimento ja validada...
+        // Data de nascimento
         LocalDate dataNasc = null;
         boolean dataValida = false;
         do {
-            System.out.print("Informe a data de nascimento(YYYY-MM-DD): ");
+            System.out.print("Informe a data de nascimento (YYYY-MM-DD): ");
             String dataStr = sc.nextLine();
             dataNasc = Validador.validarData(dataStr);
             if (dataNasc == null) {
@@ -151,12 +151,12 @@ public class Colaborador {
         } while (!dataValida);
         novo.setDataNascimento(dataNasc);
 
-        // ...funcao obrigatoria ja validada no loop...
+        // Funcao
         Funcao f = null;
         boolean cancelar = false;
         do {
             Funcao.Imprimir();
-            System.out.print("Escolhe uma Funcao (Codigo) ou digite 0 para cancelar o cadastro: ");
+            System.out.print("Escolha uma Funcao (Codigo) ou digite 0 para cancelar o cadastro: ");
             int codigoFuncao;
             try {
                 codigoFuncao = sc.nextInt();
@@ -302,16 +302,17 @@ public class Colaborador {
             return;
         }
 
-        System.out.println("\n----------------------------- COLABORADORES ATIVOS -----------------------------");
-        System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s%n",
+        System.out.println();
+        System.out.println("================================================== COLABORADORES ATIVOS =================================================");
+        System.out.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s |\n",
                 "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao");
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
 
         boolean algumAtivo = false;
         for (Colaborador c : colaboradores) {
             if (c.isActivo()) {
                 algumAtivo = true;
-                System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s%n",
+                System.out.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s |\n",
                         c.getNumero(),
                         c.getNome(),
                         c.getEmail(),
@@ -326,28 +327,24 @@ public class Colaborador {
             System.out.println("Nenhum colaborador ativo.");
         }
     }
-    
+
     public static void ImprimirPorOrdemAdmissao() {
         if (colaboradores.isEmpty()) {
-            System.out.println("Nenhum colaborador cadastrado para o relatório.");
+            System.out.println("Nenhum colaborador cadastrado para o relatorio.");
             return;
         }
 
-        // Cria uma cópia da lista para ordenar sem alterar a original
         ArrayList<Colaborador> colaboradoresOrdenados = new ArrayList<>(colaboradores);
-
-        // Ordena a lista pela data da admissão
-        // Colocamos Comparator.nullsLast(Comparator.naturalOrder()) para lidar com casos de dataAdmissao nula
         colaboradoresOrdenados.sort(Comparator.comparing(Colaborador::getDataAdmissao, Comparator.nullsLast(Comparator.naturalOrder())));
 
-        System.out.println("\n----------------------------- RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO -----------------------------");
-        System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s | %-10s%n",
+        System.out.println();
+        System.out.println("===================================== RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO ============================================");
+        System.out.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
                 "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao", "Ativo");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
 
         for (Colaborador c : colaboradoresOrdenados) {
-            System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s | %-10s%n",
+            System.out.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
                     c.getNumero(),
                     c.getNome(),
                     c.getEmail(),
@@ -355,7 +352,7 @@ public class Colaborador {
                     c.getDataNascimento() != null ? c.getDataNascimento().toString() : "N/A",
                     c.getFuncao() != null ? c.getFuncao().getNome() : "N/A",
                     c.getDataAdmissao() != null ? c.getDataAdmissao().toString() : "N/A",
-                    c.isActivo() ? "Sim" : "Nao" // Indica se está ativo ou não
+                    c.isActivo() ? "Sim" : "Nao"
             );
         }
     }
