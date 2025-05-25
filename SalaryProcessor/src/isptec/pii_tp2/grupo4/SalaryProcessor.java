@@ -73,12 +73,25 @@ public class SalaryProcessor {
             }
             switch (op1) {
                 case 1 -> {
-                    if (Colaborador.Cadastrar(sc)){
-                        System.out.println("Colaborador cadastrado com sucesso!");
+                    // Verifica se existem funções cadastradas
+                    while (Funcao.funcoes.isEmpty()) {
+                        System.out.println("Nenhuma funcao cadastrada. E necessario cadastrar pelo menos uma funcao antes de cadastrar um colaborador.");
+                        boolean criada = Funcao.Criar(sc);
+                        if (!criada) {
+                            System.out.println("Falha ao criar funcao. Nao e possivel cadastrar colaborador sem funcao.");
+                            break;
+                        }
+                        System.out.println("Funcao criada com sucesso. Prosseguindo com o cadastro do colaborador.");
                     }
-                    else{
-                        System.out.println("Falha ao cadastrar colaborador.");
-                    }       
+                    // Se existem funções cadastradas, prossegue com o cadastro do colaborador
+                    if (!Funcao.funcoes.isEmpty()) {
+                        if (Colaborador.Cadastrar(sc)){
+                            System.out.println("Colaborador cadastrado com sucesso!");
+                        }
+                        else{
+                            System.out.println("Falha ao cadastrar colaborador.");
+                        }
+                    }
                 }
                 case 2 -> {
                     Colaborador.Imprimir();
@@ -211,12 +224,12 @@ public class SalaryProcessor {
                 op1 = sc.nextInt();
                 sc.nextLine();
             } catch (Exception e) {
-                System.out.println("Entrada invalida! Por favor, digite um número.");
+                System.out.println("Entrada invalida! Por favor, digite um numero.");
                 sc.nextLine();
                 op1 = 0;
             }
             switch (op1) {
-                case 1 -> Colaborador.Imprimir();
+                case 1 -> Colaborador.ImprimirPorOrdemAdmissao();
                 case 2 -> sair = true;
                 default -> System.out.println("Opcao invalida! Tente novamente");
             }

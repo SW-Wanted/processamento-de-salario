@@ -1,9 +1,7 @@
 package isptec.pii_tp2.grupo4;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Comparator;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -92,12 +90,6 @@ public class Colaborador {
         this.dataAdmissao = dataAdmissao;
     }
 
-    //Validação para o Email
-    public static boolean isEmailValido(String email){
-        //formato do email
-        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        return email != null && email.matches(regex);
-    }
     //Métodos de operação de colaboradores
     
     //Recebe o Scanner como parâmetro para evitar muitas instâncias  
@@ -106,65 +98,93 @@ public class Colaborador {
 
         novo.setNumero(contador++);
 
-        System.out.print("Informe o nome: ");
-        novo.setNome(sc.nextLine());
-        
+        // Campo obrigatorio: nome
+        String nome;
+        do {
+            System.out.print("Informe o nome: ");
+            nome = sc.nextLine();
+            if (!Validador.hasContent(nome)) {
+                System.out.println("O nome do colaborador nao pode ser vazio.");
+            }
+        } while (!Validador.hasContent(nome));
+        novo.setNome(nome);
+
+        // ...email obrigatorio ja validado...
         String email;
         do{
             System.out.print("Informe o email: ");
             email = sc.nextLine();
-            if(!isEmailValido(email)){
+            if(!Validador.isEmailValido(email)){
                 System.out.println("Formato de email invalido! Tente novamente.");
             }else{
-                //Verifica se o email já existe
                 if(Pesquisar(email)!= null){
                     System.out.println("Este email ja esta cadastrado para outro colaborador. Tente novamente.");
                     email = null;
                 }
             }
-        }while(!isEmailValido(email) || email == null);
-        
+        }while(!Validador.isEmailValido(email) || email == null);
         novo.setEmail(email);
-        
-        System.out.print("Informe a morada: ");
-        novo.setMorada(sc.nextLine());
 
-        System.out.print("Informe a data de nascimento(YYYY-MM-DD): ");
-        try {
-            LocalDate dataNasc = LocalDate.parse(sc.nextLine());
-            //Validação da data de nascimento
-            if(dataNasc.isAfter(LocalDate.now())){
-                System.out.println("Data de nascimento nao pode ser no futuro! Cadastro cancelado.");
-                return false;
+        // Campo obrigatorio: morada
+        String morada;
+        do {
+            System.out.print("Informe a morada: ");
+            morada = sc.nextLine();
+            if (!Validador.hasContent(morada)) {
+                System.out.println("A morada nao pode ser vazia.");
             }
-            novo.setDataNascimento(dataNasc);
-        } catch (DateTimeParseException e) {
-            System.out.println("Formato de data invalido! Use YYYY-MM-DD. Cadastro cancelado.");
-            return false;
-        }
+        } while (!Validador.hasContent(morada));
+        novo.setMorada(morada);
 
-        Funcao.Imprimir();
-        System.out.print("Escolhe uma Funcao (Codigo): ");
-        int codigoFuncao;
-        try {
-            codigoFuncao = sc.nextInt();
-        } catch (Exception e) {
-            System.out.println("Entrada invalida para o codigo da funcao. Cadastro cancelado.");
-            sc.nextLine(); // Limpa o buffer
-            return false;
-        }
-        sc.nextLine(); // Limpar buffer
+        // ...data de nascimento ja validada...
+        LocalDate dataNasc = null;
+        boolean dataValida = false;
+        do {
+            System.out.print("Informe a data de nascimento(YYYY-MM-DD): ");
+            String dataStr = sc.nextLine();
+            dataNasc = Validador.validarData(dataStr);
+            if (dataNasc == null) {
+                System.out.println("Data de nascimento invalida ou no futuro! Tente novamente.");
+            } else {
+                dataValida = true;
+            }
+        } while (!dataValida);
+        novo.setDataNascimento(dataNasc);
 
-        Funcao f = Funcao.Pesquisar(codigoFuncao);
+        // ...funcao obrigatoria ja validada no loop...
+        Funcao f = null;
+        boolean cancelar = false;
+        do {
+            Funcao.Imprimir();
+            System.out.print("Escolhe uma Funcao (Codigo) ou digite 0 para cancelar o cadastro: ");
+            int codigoFuncao;
+            try {
+                codigoFuncao = sc.nextInt();
+            } catch (Exception e) {
+                System.out.println("Entrada invalida para o codigo da funcao. Tente novamente.");
+                sc.nextLine();
+                continue;
+            }
+            sc.nextLine();
 
-        if (f == null) {
-            System.out.println("Funcao com o codigo " + codigoFuncao + " nao encontrada! Cadastro cancelado.");
+            if (codigoFuncao == 0) {
+                System.out.println("Cadastro de colaborador cancelado pelo usuario.");
+                cancelar = true;
+                break;
+            }
+
+            f = Funcao.Pesquisar(codigoFuncao);
+
+            if (f == null) {
+                System.out.println("Funcao com o codigo " + codigoFuncao + " nao encontrada! Tente novamente ou digite 0 para cancelar.");
+            }
+        } while (f == null && !cancelar);
+
+        if (cancelar) {
             return false;
         }
 
         novo.setFuncao(f);
-        // dataAdmissao e activo já são definidos no construtor
-        
         return colaboradores.add(novo);
     }
 
@@ -181,20 +201,20 @@ public class Colaborador {
         do{
             System.out.print("Novo email (" + colaborador.getEmail() + "): ");
             email = sc.nextLine();
-            if (email.isEmpty()) { // Usuário não quer alterar o email
+            if (email.isEmpty()) { // Usuario nao quer alterar o email
                 break;
             }
-            if (!isEmailValido(email)) {
+            if (!Validador.isEmailValido(email)) {
                 System.out.println("Formato de email invalido! Tente novamente ou pressione Enter para manter o atual.");
             } else {
-                // Verifica se o email já existe, exceto se for o próprio email do colaborador
+                // Verifica se o email ja existe, exceto se for o proprio email do colaborador
                 Colaborador cExistente = Pesquisar(email);
                 if (cExistente != null && cExistente.getNumero() != colaborador.getNumero()) {
                     System.out.println("Este email ja esta cadastrado para outro colaborador. Tente novamente ou pressione Enter para manter o atual.");
                     email = ""; // Para repetir o loop ou sair se for vazio
                 } else {
                     colaborador.setEmail(email);
-                    break; // Sai do loop se for válido e único
+                    break; // Sai do loop se for valido e unico
                 }
             }
 
@@ -207,15 +227,11 @@ public class Colaborador {
         System.out.print("Nova data de nascimento (" + (colaborador.getDataNascimento() != null ? colaborador.getDataNascimento().toString() : "N/A") + "): ");
         String dataStr = sc.nextLine();
         if (!dataStr.isEmpty()) {
-            try {
-                LocalDate dataNasc = LocalDate.parse(dataStr);
-                if (dataNasc.isAfter(LocalDate.now())) {
-                    System.out.println("Data de nascimento nao pode ser no futuro! Mantendo a anterior.");
-                } else {
-                    colaborador.setDataNascimento(dataNasc);
-                }
-            } catch (DateTimeParseException e) {
-                System.out.println("Formato de data inválido! Use YYYY-MM-DD. Mantendo a anterior.");
+            LocalDate dataNasc = Validador.validarData(dataStr);
+            if (dataNasc == null) {
+                System.out.println("Data de nascimento invalida ou no futuro! Mantendo a anterior.");
+            } else {
+                colaborador.setDataNascimento(dataNasc);
             }
         }
 
@@ -232,7 +248,7 @@ public class Colaborador {
                     System.out.println("Funcao com o codigo " + funcaoId + " nao encontrada! Mantendo a anterior.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Código da funcao invalido! Mantendo a anterior.");
+                System.out.println("Codigo da funcao invalido! Mantendo a anterior.");
             }
         }
 
@@ -320,7 +336,7 @@ public class Colaborador {
         // Cria uma cópia da lista para ordenar sem alterar a original
         ArrayList<Colaborador> colaboradoresOrdenados = new ArrayList<>(colaboradores);
 
-        // Ordena a lista pela data de admissão
+        // Ordena a lista pela data da admissão
         // Colocamos Comparator.nullsLast(Comparator.naturalOrder()) para lidar com casos de dataAdmissao nula
         colaboradoresOrdenados.sort(Comparator.comparing(Colaborador::getDataAdmissao, Comparator.nullsLast(Comparator.naturalOrder())));
 
@@ -339,7 +355,7 @@ public class Colaborador {
                     c.getDataNascimento() != null ? c.getDataNascimento().toString() : "N/A",
                     c.getFuncao() != null ? c.getFuncao().getNome() : "N/A",
                     c.getDataAdmissao() != null ? c.getDataAdmissao().toString() : "N/A",
-                    c.isActivo() ? "Sim" : "Não" // Indica se está ativo ou não
+                    c.isActivo() ? "Sim" : "Nao" // Indica se está ativo ou não
             );
         }
     }

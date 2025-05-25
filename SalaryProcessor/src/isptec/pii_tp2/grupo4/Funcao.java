@@ -58,54 +58,67 @@ public class Funcao {
 
     
     public static boolean Criar(Scanner sc) {
-        
         Funcao f = new Funcao();
 
         f.setCodigo(funcoes.isEmpty() ? 1 : funcoes.get(funcoes.size() - 1).getCodigo() + 1);
 
-        System.out.print("Informe o nome da funcao: ");
-        String nomeFuncao = sc.nextLine();
-        // Validação para nome da função
-        if (nomeFuncao.trim().isEmpty()) {
-            System.out.println("O nome da função não pode ser vazio.");
-            return false;
-        }
-        // Verifica se a função com este nome já existe
-        for(Funcao existente : funcoes) {
-            if (existente.getNome().equalsIgnoreCase(nomeFuncao)) {
-                System.out.println("Já existe uma função com este nome.");
-                return false;
+        // Campo obrigatorio: nome da funcao
+        String nomeFuncao;
+        do {
+            System.out.print("Informe o nome da funcao: ");
+            nomeFuncao = sc.nextLine();
+            if (!Validador.hasContent(nomeFuncao)) {
+                System.out.println("O nome da funcao nao pode ser vazio.");
+            } else {
+                boolean existe = false;
+                for(Funcao existente : funcoes) {
+                    if (existente.getNome().equalsIgnoreCase(nomeFuncao)) {
+                        System.out.println("Ja existe uma funcao com este nome.");
+                        existe = true;
+                        break;
+                    }
+                }
+                if (existe) nomeFuncao = "";
             }
-        }
+        } while (!Validador.hasContent(nomeFuncao));
         f.setNome(nomeFuncao);
 
-        System.out.print("Informe o salário base: ");
-        try {
-            f.setSalarioBase(sc.nextDouble());
-            if (f.getSalarioBase() < 0) {
-                System.out.println("Salário base não pode ser negativo.");
-                sc.nextLine(); // Limpa o buffer
-                return false;
+        // Campo obrigatorio: salario base > 0
+        double salarioBase = -1;
+        do {
+            System.out.print("Informe o salario base: ");
+            try {
+                salarioBase = sc.nextDouble();
+                if (!Validador.isValorPositivo(salarioBase)) {
+                    System.out.println("Salario base deve ser maior que zero.");
+                    salarioBase = -1;
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada invalida para o salario base.");
+                sc.nextLine();
+                salarioBase = -1;
             }
-        } catch (Exception e) {
-            System.out.println("Entrada inválida para o salário base.");
-            sc.nextLine(); // Limpa o buffer
-            return false;
-        }
+        } while (salarioBase <= 0);
+        f.setSalarioBase(salarioBase);
 
-        System.out.print("Informe o bónus: ");
-        try {
-            f.setBonus(sc.nextDouble());
-            if (f.getBonus() < 0) {
-                System.out.println("Bónus não pode ser negativo.");
-                sc.nextLine(); // Limpa o buffer
-                return false;
+        // Campo obrigatorio: bonus > 0
+        double bonus = -1;
+        do {
+            System.out.print("Informe o bonus: ");
+            try {
+                bonus = sc.nextDouble();
+                if (!Validador.isValorPositivo(bonus)) {
+                    System.out.println("Bonus deve ser maior que zero.");
+                    bonus = -1;
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada invalida para o bonus.");
+                sc.nextLine();
+                bonus = -1;
             }
-        } catch (Exception e) {
-            System.out.println("Entrada inválida para o bónus.");
-            sc.nextLine(); // Limpa o buffer
-            return false;
-        }
+        } while (bonus <= 0);
+        f.setBonus(bonus);
+
         sc.nextLine(); // Limpar buffer
 
         return funcoes.add(f);
