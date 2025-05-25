@@ -24,12 +24,15 @@ public class SalaryProcessor {
     public static void menuPrincipal(Scanner sc) {
         int op;
         do {
-            System.out.println("MENU PRINCIPAL");
-            System.out.println("1. Colaboradores");
-            System.out.println("2. Funcoes");
-            System.out.println("3. Relatorios");
-            System.out.println("4. Sair");
-            System.out.println("------------------------------");
+            System.out.println();
+            System.out.println("=========================================");
+            System.out.println("|           MENU PRINCIPAL              |");
+            System.out.println("=========================================");
+            System.out.println("|  1. Colaboradores                     |");
+            System.out.println("|  2. Funcoes                           |");
+            System.out.println("|  3. Relatorios                        |");
+            System.out.println("|  4. Sair                              |");
+            System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
                 op = sc.nextInt();
@@ -44,24 +47,26 @@ public class SalaryProcessor {
                 case 2 -> submenuFuncoes(sc);
                 case 3 -> submenuRelatorios(sc);
                 case 4 -> System.out.println("Saindo...");
-                default -> System.out.println("Opcao Invalida! Tente novamente.");
+                default -> System.out.println("Opcao invalida! Tente novamente.");
             }
         } while (op != 4);
-        
     }
 
     private static void submenuColaboradores(Scanner sc) {
         int op1;
         boolean sair = false;
         while (!sair) {
-            System.out.println("SUBMENU COLABORADORES");
-            System.out.println("1. Cadastrar");
-            System.out.println("2. Actualizar");
-            System.out.println("3. Desactivar");
-            System.out.println("4. Pesquisar");
-            System.out.println("5. Imprimir");
-            System.out.println("6. Voltar");
-            System.out.println("------------------------------");
+            System.out.println();
+            System.out.println("=========================================");
+            System.out.println("|        SUBMENU COLABORADORES          |");
+            System.out.println("=========================================");
+            System.out.println("|  1. Cadastrar                         |");
+            System.out.println("|  2. Actualizar                        |");
+            System.out.println("|  3. Desactivar                        |");
+            System.out.println("|  4. Pesquisar                         |");
+            System.out.println("|  5. Imprimir                          |");
+            System.out.println("|  6. Voltar                            |");
+            System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
                 op1 = sc.nextInt();
@@ -73,22 +78,29 @@ public class SalaryProcessor {
             }
             switch (op1) {
                 case 1 -> {
-                    // Verifica se existem funções cadastradas
                     while (Funcao.funcoes.isEmpty()) {
-                        System.out.println("Nenhuma funcao cadastrada. E necessario cadastrar pelo menos uma funcao antes de cadastrar um colaborador.");
-                        boolean criada = Funcao.Criar(sc);
-                        if (!criada) {
-                            System.out.println("Falha ao criar funcao. Nao e possivel cadastrar colaborador sem funcao.");
+                        System.out.println(
+                                "Nenhuma funcao cadastrada. E necessario cadastrar pelo menos uma funcao antes de cadastrar um colaborador.");
+                        System.out.print("Deseja criar uma nova funcao agora? (s/n): ");
+                        String resposta = sc.nextLine().trim().toLowerCase();
+                        if (resposta.equals("s")) {
+                            boolean criada = Funcao.Criar(sc);
+                            if (!criada) {
+                                System.out.println(
+                                        "Falha ao criar funcao. Nao e possivel cadastrar colaborador sem funcao.");
+                                break;
+                            }
+                            System.out
+                                    .println("Funcao criada com sucesso. Prosseguindo com o cadastro do colaborador.");
+                        } else {
+                            System.out.println("Nao e possivel cadastrar colaborador sem funcao.");
                             break;
                         }
-                        System.out.println("Funcao criada com sucesso. Prosseguindo com o cadastro do colaborador.");
                     }
-                    // Se existem funções cadastradas, prossegue com o cadastro do colaborador
                     if (!Funcao.funcoes.isEmpty()) {
-                        if (Colaborador.Cadastrar(sc)){
+                        if (Colaborador.Cadastrar(sc)) {
                             System.out.println("Colaborador cadastrado com sucesso!");
-                        }
-                        else{
+                        } else {
                             System.out.println("Falha ao cadastrar colaborador.");
                         }
                     }
@@ -100,24 +112,28 @@ public class SalaryProcessor {
                     try {
                         numeroAtualizar = sc.nextInt();
                     } catch (Exception e) {
-                        System.out.println("Entrada inválida para o número do colaborador.");
-                        sc.nextLine(); // Limpa o buffer
+                        System.out.println("Entrada invalida para o numero do colaborador.");
+                        sc.nextLine();
                         break;
                     }
-                    sc.nextLine(); // Limpa o buffer
+                    sc.nextLine();
                     Colaborador c = Colaborador.Pesquisar(numeroAtualizar);
                     if (c != null) {
-                        Colaborador.Actualizar(sc, c); // Passa o Scanner
+                        Colaborador.Actualizar(sc, c);
                         System.out.println("Colaborador atualizado com sucesso!");
                     } else {
-                        System.out.println("Colaborador não encontrado.");
+                        System.out.println("Colaborador nao encontrado.");
                     }
                 }
                 case 3 -> Colaborador.Desactivar(sc);
                 case 4 -> {
-                    System.out.println("Pesquisar Colaborador:");
-                    System.out.println("1. Por Numero");
-                    System.out.println("2. Por Email");
+                    System.out.println();
+                    System.out.println("=========================================");
+                    System.out.println("|      PESQUISAR COLABORADOR            |");
+                    System.out.println("=========================================");
+                    System.out.println("|  1. Por Numero                        |");
+                    System.out.println("|  2. Por Email                         |");
+                    System.out.println("=========================================");
                     System.out.print("Escolha o metodo de pesquisa: ");
                     int opc;
                     try {
@@ -128,7 +144,6 @@ public class SalaryProcessor {
                         sc.nextLine();
                         break;
                     }
-
                     Colaborador c = null;
                     if (opc == 1) {
                         System.out.print("Informe o numero do colaborador a pesquisar: ");
@@ -136,7 +151,7 @@ public class SalaryProcessor {
                         try {
                             numeroPesquisar = sc.nextInt();
                         } catch (Exception e) {
-                            System.out.println("Entrada inválida para o número.");
+                            System.out.println("Entrada invalida para o numero.");
                             sc.nextLine();
                             break;
                         }
@@ -147,15 +162,16 @@ public class SalaryProcessor {
                         String emailPesquisar = sc.nextLine();
                         c = Colaborador.Pesquisar(emailPesquisar);
                     } else {
-                        System.out.println("Opção de pesquisa inválida.");
+                        System.out.println("Opcao de pesquisa invalida.");
                     }
-
                     if (c != null) {
-                        System.out.println("\n--- Colaborador Encontrado ---");
-                        System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s | %-10s%n",
+                        System.out.println(
+                                "================================================= COLABORADOR ENCONTRADO ========================================================");
+                        System.out.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
                                 "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao", "Ativo");
-                        System.out.println("------------------------------------------------------------------------------------------------------------------------");
-                        System.out.printf("%-5s | %-20s | %-25s | %-15s | %-15s | %-20s | %-15s | %-10s%n",
+                        System.out.println(
+                                "---------------------------------------------------------------------------------------------------------------------------------");
+                        System.out.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
                                 c.getNumero(),
                                 c.getNome(),
                                 c.getEmail(),
@@ -163,8 +179,7 @@ public class SalaryProcessor {
                                 c.getDataNascimento() != null ? c.getDataNascimento().toString() : "N/A",
                                 c.getFuncao() != null ? c.getFuncao().getNome() : "N/A",
                                 c.getDataAdmissao() != null ? c.getDataAdmissao().toString() : "N/A",
-                                c.isActivo() ? "Sim" : "Não"
-                        );
+                                c.isActivo() ? "Sim" : "Nao");
                     } else {
                         System.out.println("Colaborador nao encontrado.");
                     }
@@ -180,12 +195,15 @@ public class SalaryProcessor {
         int op1;
         boolean sair = false;
         while (!sair) {
-            System.out.println("SUBMENU FUNCOES");
-            System.out.println("1. Criar");
-            System.out.println("2. Eliminar");
-            System.out.println("3. Imprimir");
-            System.out.println("4. Voltar");
-            System.out.println("------------------------------");
+            System.out.println();
+            System.out.println("=========================================");
+            System.out.println("|           SUBMENU FUNCOES             |");
+            System.out.println("=========================================");
+            System.out.println("|  1. Criar                             |");
+            System.out.println("|  2. Eliminar                          |");
+            System.out.println("|  3. Imprimir                          |");
+            System.out.println("|  4. Voltar                            |");
+            System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
                 op1 = sc.nextInt();
@@ -198,7 +216,7 @@ public class SalaryProcessor {
             switch (op1) {
                 case 1 -> {
                     if (Funcao.Criar(sc)) {
-                        System.out.println("Função criada com sucesso!");
+                        System.out.println("Funcao criada com sucesso!");
                     } else {
                         System.out.println("Falha ao criar funcao.");
                     }
@@ -215,10 +233,13 @@ public class SalaryProcessor {
         int op1;
         boolean sair = false;
         while (!sair) {
-            System.out.println("SUBMENU RELATORIOS");
-            System.out.println("1. Lista de Colaboradores (por ordem de admissao)");
-            System.out.println("2. Voltar");
-            System.out.println("------------------------------");
+            System.out.println();
+            System.out.println("=========================================");
+            System.out.println("|         SUBMENU RELATORIOS            |");
+            System.out.println("=========================================");
+            System.out.println("|  1. Lista de Colaboradores            |");
+            System.out.println("|  2. Voltar                            |");
+            System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
                 op1 = sc.nextInt();

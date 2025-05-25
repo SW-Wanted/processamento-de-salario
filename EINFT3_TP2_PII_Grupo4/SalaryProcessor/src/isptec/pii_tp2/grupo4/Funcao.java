@@ -86,7 +86,7 @@ public class Funcao {
         // Campo obrigatorio: salario base > 0
         double salarioBase = -1;
         do {
-            System.out.print("Informe o salario base: ");
+            System.out.print("Informe o salario base (kz): ");
             try {
                 salarioBase = sc.nextDouble();
                 if (!Validador.isValorPositivo(salarioBase)) {
@@ -104,7 +104,7 @@ public class Funcao {
         // Campo obrigatorio: bonus > 0
         double bonus = -1;
         do {
-            System.out.print("Informe o bonus: ");
+            System.out.print("Informe o bonus (kz): ");
             try {
                 bonus = sc.nextDouble();
                 if (!Validador.isValorPositivo(bonus)) {
@@ -172,13 +172,17 @@ public class Funcao {
             return;
         }
 
-        System.out.println("\n--- LISTA DE FUNCOES ---");
-        System.out.printf("%-8s | %-20s | %-15s | %-10s\n", "Codigo", "Nome", "Salario Base", "Bonus");
-        System.out.println("-------- | -------------------- | --------------- | ----------");
+        System.out.println();
+        System.out.println("============================= LISTA DE FUNCOES =============================");
+        System.out.printf("%-8s | %-22s | %-20s | %-15s |\n", "Codigo", "Nome", "Salario Base (kz)", "Bonus (kz)");
+        System.out.println("-------- | ---------------------- | -------------------- | --------------- |");
 
         for (Funcao f : funcoes) {
-            System.out.printf("%-8d | %-20s | %-15.2f | %-10.2f\n",
-                    f.getCodigo(), f.getNome(), f.getSalarioBase(), f.getBonus());
+            System.out.printf("%-8d | %-22s | %-20.2f | %-15.2f |\n",
+                f.getCodigo(),
+                f.getNome(),
+                f.getSalarioBase(),
+                f.getBonus());
         }
     }
 
