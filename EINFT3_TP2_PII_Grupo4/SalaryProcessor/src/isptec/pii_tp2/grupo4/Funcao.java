@@ -135,12 +135,12 @@ public class Funcao {
 
     public static boolean Eliminar(Scanner sc) {
         Imprimir();
-        System.out.print("Informe o código da função a eliminar: ");
+        System.out.print("Informe o codigo da funcao a eliminar: ");
         int codigo;
         try {
             codigo = sc.nextInt();
         } catch (Exception e) {
-            System.out.println("Entrada inválida para o código da função.");
+            System.out.println("Entrada invalida para o codigo da funcao.");
             sc.nextLine(); // Limpa o buffer
             return false;
         }
@@ -148,7 +148,7 @@ public class Funcao {
 
         Funcao funcaoParaRemover = Pesquisar(codigo);
         if (funcaoParaRemover == null) {
-            System.out.println("Função não encontrada.");
+            System.out.println("Funcao nao encontrada.");
             return false;
         }
 
@@ -156,13 +156,13 @@ public class Funcao {
         for (Colaborador c : Colaborador.colaboradores) {
             // Usa o método equals de Funcao para comparar objetos
             if (c.getFuncao() != null && c.getFuncao().equals(funcaoParaRemover)) {
-                System.out.println("Não é possível eliminar a função. Está associada ao colaborador: " + c.getNome());
+                System.out.println("Nao eh possível eliminar a funcao. Esta associada ao colaborador: " + c.getNome());
                 return false;
             }
         }
         // Se não estiver associada a nenhum colaborador, pode remover
         funcoes.remove(funcaoParaRemover);
-        System.out.println("Função eliminada com sucesso!");
+        System.out.println("Funcao eliminada com sucesso!");
         return true;
     }
 
