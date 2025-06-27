@@ -6,11 +6,8 @@ package isptec.pii_tp2.grupo4;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Objects; 
 
-/**
- *
- * @author Emanuel
- */
 public class Funcao {
 
     private int codigo;
@@ -56,13 +53,32 @@ public class Funcao {
         this.bonus = bonus;
     }
 
+    // Métodos equals() e hashCode() para garantir comparações corretas 
+    public boolean equals(Object obj) {
+        // Se o objeto for a própria instância, são iguais
+        if (this == obj) {
+            return true;
+        }
+        // Se o objeto for nulo ou de uma classe diferente, não são iguais
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        // Converte o objeto para Funcao
+        Funcao outraFuncao = (Funcao) obj;
+        // Compara as funções com base em seus códigos
+        return this.codigo == outraFuncao.codigo;
+    }
+    
+    public int hashCode() {
+        // Se dois objetos são iguais (equals retorna true), eles DEVEM ter o mesmo hashCode.
+        return Objects.hash(codigo); 
+    }
     
     public static boolean Criar(Scanner sc) {
         Funcao f = new Funcao();
 
         f.setCodigo(funcoes.isEmpty() ? 1 : funcoes.get(funcoes.size() - 1).getCodigo() + 1);
 
-        // Campo obrigatorio: nome da funcao
         String nomeFuncao;
         do {
             System.out.print("Informe o nome da funcao: ");
@@ -185,5 +201,4 @@ public class Funcao {
                 f.getBonus());
         }
     }
-
 }

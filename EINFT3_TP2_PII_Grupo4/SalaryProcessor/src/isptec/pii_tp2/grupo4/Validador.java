@@ -29,4 +29,13 @@ public class Validador {
     public static boolean hasContent(String valor) {
         return valor != null && !valor.trim().isEmpty();
     }
+    
+    public static boolean isNomeArquivoValido(String nomeArquivo) {
+        if (!hasContent(nomeArquivo)) {
+            return false; // Não pode ser nulo ou vazio
+        }
+        // Caracteres inválidos comuns em Windows/Linux para nomes de arquivo
+        String caracteresInvalidos = "[<>:\"/\\\\|?*]";
+        return !nomeArquivo.matches(".*" + caracteresInvalidos + ".*");
+    }
 }

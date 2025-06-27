@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileWriter; 
+import java.io.IOException; 
+import java.io.PrintWriter; 
+import java.time.format.DateTimeFormatter; 
 
 public class Colaborador {
 
@@ -354,6 +358,58 @@ public class Colaborador {
                     c.getDataAdmissao() != null ? c.getDataAdmissao().toString() : "N/A",
                     c.isActivo() ? "Sim" : "Nao"
             );
+        }
+    }
+    
+    public static void ExportarParaTXT(Scanner sc) {
+        System.out.println("\n--- EXPORTAR RELATORIO DE COLABORADORES PARA TXT ---");
+        if (colaboradores.isEmpty()) {
+            System.out.println("Nenhum colaborador cadastrado para exportar.");
+            return;
+        }
+
+        System.out.print("Digite o nome do arquivo (ex: colaboradores.txt): ");
+        String nomeArquivo = sc.nextLine();
+
+        // Validação do nome do arquivo
+        if (!Validador.isNomeArquivoValido(nomeArquivo)) {
+            System.out.println("Erro: Nome do arquivo invalido. Nao use caracteres como < > : \" / \\ | ? *");
+            return;
+        }
+
+        // Adiciona a extensão .txt se não estiver presente
+        if (!nomeArquivo.toLowerCase().endsWith(".txt")) {
+            nomeArquivo += ".txt";
+        }
+
+        // Ordena os colaboradores antes de escrever 
+        ArrayList<Colaborador> colaboradoresOrdenados = new ArrayList<>(colaboradores);
+        colaboradoresOrdenados.sort(Comparator.comparing(Colaborador::getDataAdmissao, Comparator.nullsLast(Comparator.naturalOrder())));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo))) {
+            writer.println("===================================== RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO ============================================");
+            writer.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
+                    "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao", "Ativo");
+            writer.println("---------------------------------------------------------------------------------------------------------------------------------");
+
+            for (Colaborador c : colaboradoresOrdenados) {
+                writer.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
+                        c.getNumero(),
+                        c.getNome(),
+                        c.getEmail(),
+                        c.getMorada(),
+                        c.getDataNascimento() != null ? c.getDataNascimento().format(formatter) : "N/A",
+                        c.getFuncao() != null ? c.getFuncao().getNome() : "N/A",
+                        c.getDataAdmissao() != null ? c.getDataAdmissao().format(formatter) : "N/A",
+                        c.isActivo() ? "Sim" : "Nao");
+            }
+            System.out.println("Relatorio de colaboradores exportado com sucesso para " + nomeArquivo);
+
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+            System.err.println("Verifique as permissoes de escrita ou se o caminho esta correto.");
         }
     }
 }

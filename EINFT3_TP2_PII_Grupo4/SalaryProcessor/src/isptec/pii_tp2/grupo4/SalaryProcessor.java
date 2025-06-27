@@ -5,18 +5,18 @@
 package isptec.pii_tp2.grupo4;
 
 import java.util.Scanner;
+import java.util.InputMismatchException; 
 
-/**
- *
- * @author Emanuel
- */
+
 public class SalaryProcessor {
+    private static HoleriteManager holeriteManager = new HoleriteManager();
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double salarioBrutoTeste = 350000.00;
+        double irtCalculado = CalculadoraSalario.calcularIRT(salarioBrutoTeste);
+        System.out.println("Salario Bruto de teste: " + salarioBrutoTeste);
+        System.out.println("IRT calculado: " + irtCalculado);
         menuPrincipal(sc);
         sc.close();
     }
@@ -30,8 +30,9 @@ public class SalaryProcessor {
             System.out.println("=========================================");
             System.out.println("|  1. Colaboradores                     |");
             System.out.println("|  2. Funcoes                           |");
-            System.out.println("|  3. Relatorios                        |");
-            System.out.println("|  4. Sair                              |");
+            System.out.println("|  3. Processamento de Salarios         |");
+             System.out.println("|  4. Relatorios                        |");
+            System.out.println("|  5. Sair                              |");
             System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
@@ -45,11 +46,12 @@ public class SalaryProcessor {
             switch (op) {
                 case 1 -> submenuColaboradores(sc);
                 case 2 -> submenuFuncoes(sc);
-                case 3 -> submenuRelatorios(sc);
-                case 4 -> System.out.println("Saindo...");
+                case 3 -> submenuProcessamentoSalarios(sc);
+                case 4 -> submenuRelatorios(sc);
+                case 5 -> System.out.println("Saindo...");
                 default -> System.out.println("Opcao invalida! Tente novamente.");
             }
-        } while (op != 4);
+        } while (op != 5);
     }
 
     private static void submenuColaboradores(Scanner sc) {
@@ -229,6 +231,37 @@ public class SalaryProcessor {
         }
     }
 
+    private static void submenuProcessamentoSalarios(Scanner sc) { 
+        int op;
+        boolean sair = false;
+        while (!sair) {
+            System.out.println();
+            System.out.println("=========================================");
+            System.out.println("|     SUBMENU PROCESSAMENTO SALARIAL    |");
+            System.out.println("=========================================");
+            System.out.println("|  1. Gerar Holerite para Colaborador   |");
+            System.out.println("|  2. Listar Holerites Gerados          |");
+            System.out.println("|  3. Voltar                            |");
+            System.out.println("=========================================");
+            System.out.print("Escolha uma opcao: ");
+            try {
+                op = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada invalida! Por favor, digite um numero.");
+                sc.nextLine();
+                op = 0;
+            }
+
+            switch (op) {
+                case 1 -> holeriteManager.gerarHolerite(sc);
+                case 2 -> holeriteManager.listarHolerites(sc);
+                case 3 -> sair = true;
+                default -> System.out.println("Opcao invalida! Tente novamente.");
+            }
+        }
+    }
+    
     private static void submenuRelatorios(Scanner sc) {
         int op1;
         boolean sair = false;
@@ -238,20 +271,26 @@ public class SalaryProcessor {
             System.out.println("|         SUBMENU RELATORIOS            |");
             System.out.println("=========================================");
             System.out.println("|  1. Lista de Colaboradores            |");
-            System.out.println("|  2. Voltar                            |");
+            System.out.println("|  2. Lista de Holerites                |"); 
+            System.out.println("|  3. Exportar Colaboradores (TXT)      |"); 
+            System.out.println("|  4. Exportar Holerites (TXT)          |"); 
+            System.out.println("|  5. Voltar                            |"); 
             System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
                 op1 = sc.nextInt();
                 sc.nextLine();
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Entrada invalida! Por favor, digite um numero.");
                 sc.nextLine();
                 op1 = 0;
             }
             switch (op1) {
                 case 1 -> Colaborador.ImprimirPorOrdemAdmissao();
-                case 2 -> sair = true;
+                case 2 -> holeriteManager.listarHolerites(sc);
+                case 3 -> Colaborador.ExportarParaTXT(sc);     
+                case 4 -> holeriteManager.exportarHoleritesParaTXT(sc); 
+                case 5 -> sair = true;
                 default -> System.out.println("Opcao invalida! Tente novamente");
             }
         }
