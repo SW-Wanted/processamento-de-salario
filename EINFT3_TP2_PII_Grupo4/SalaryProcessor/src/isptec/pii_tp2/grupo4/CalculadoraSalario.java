@@ -53,7 +53,6 @@ public class CalculadoraSalario {
     }
     return irt;
 }
-    
     /*
      Calcula a Contribuicao para a Seguranca Social (INSS) do colaborador em Angola.
      A taxa padrao para o trabalhador e de 3% sobre o salario base.

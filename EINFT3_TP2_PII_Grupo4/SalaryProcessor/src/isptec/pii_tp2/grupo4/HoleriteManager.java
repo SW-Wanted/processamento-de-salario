@@ -116,7 +116,7 @@ public class HoleriteManager {
                 valorIRT,
                 valorINSS,
                 salarioLiquido,
-                LocalDate.now() // Data de processamento é a data atual
+                LocalDate.now() 
         );
 
         this.holeritesGerados.add(novoHolerite); 

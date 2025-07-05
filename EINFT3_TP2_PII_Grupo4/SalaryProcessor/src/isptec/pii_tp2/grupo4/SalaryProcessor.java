@@ -13,10 +13,6 @@ public class SalaryProcessor {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double salarioBrutoTeste = 350000.00;
-        double irtCalculado = CalculadoraSalario.calcularIRT(salarioBrutoTeste);
-        System.out.println("Salario Bruto de teste: " + salarioBrutoTeste);
-        System.out.println("IRT calculado: " + irtCalculado);
         menuPrincipal(sc);
         sc.close();
     }
@@ -78,6 +74,7 @@ public class SalaryProcessor {
                 sc.nextLine();
                 op1 = 0;
             }
+            OUTER:
             switch (op1) {
                 case 1 -> {
                     while (Funcao.funcoes.isEmpty()) {
@@ -147,24 +144,26 @@ public class SalaryProcessor {
                         break;
                     }
                     Colaborador c = null;
-                    if (opc == 1) {
-                        System.out.print("Informe o numero do colaborador a pesquisar: ");
-                        int numeroPesquisar;
-                        try {
-                            numeroPesquisar = sc.nextInt();
-                        } catch (Exception e) {
-                            System.out.println("Entrada invalida para o numero.");
+                    switch (opc) {
+                        case 1 -> {
+                            System.out.print("Informe o numero do colaborador a pesquisar: ");
+                            int numeroPesquisar;
+                            try {
+                                numeroPesquisar = sc.nextInt();
+                            } catch (Exception e) {
+                                System.out.println("Entrada invalida para o numero.");
+                                sc.nextLine();
+                                break OUTER;
+                            }
                             sc.nextLine();
-                            break;
-                        }
-                        sc.nextLine();
-                        c = Colaborador.Pesquisar(numeroPesquisar);
-                    } else if (opc == 2) {
-                        System.out.print("Informe o email do colaborador a pesquisar: ");
-                        String emailPesquisar = sc.nextLine();
-                        c = Colaborador.Pesquisar(emailPesquisar);
-                    } else {
-                        System.out.println("Opcao de pesquisa invalida.");
+                            c = Colaborador.Pesquisar(numeroPesquisar);
+                    }
+                        case 2 -> {
+                            System.out.print("Informe o email do colaborador a pesquisar: ");
+                            String emailPesquisar = sc.nextLine();
+                            c = Colaborador.Pesquisar(emailPesquisar);
+                    }
+                        default -> System.out.println("Opcao de pesquisa invalida.");
                     }
                     if (c != null) {
                         System.out.println(

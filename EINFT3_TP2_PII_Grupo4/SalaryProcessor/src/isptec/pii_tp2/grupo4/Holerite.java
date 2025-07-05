@@ -16,12 +16,12 @@ public class Holerite {
     private static int contadorHolerite = 1;
     
     private Colaborador colaborador;
-    private LocalDate periodoReferencia; // Ex: o 1º dia do mês para o qual o salário foi processado
-    private double salarioBase;   // Salário base da função no momento do processamento
+    private LocalDate periodoReferencia; 
+    private double salarioBase;   
     private double valorIRT;
     private double valorINSS; 
     private double salarioLiquido;
-    private LocalDate dataPagamento;     // Data em que o holerite foi gerado 
+    private LocalDate dataPagamento;   
     private double bonus;
     private double salarioBruto;
 
@@ -29,6 +29,7 @@ public class Holerite {
                     double salarioBase, double bonus, double salarioBruto,
                     double valorIRT, double valorSegurancaSocial, double salarioLiquido,
                     LocalDate dataPagamento) {
+        this.idHolerite = contadorHolerite++;
         this.colaborador = colaborador;
         this.periodoReferencia = periodoReferencia;
         this.bonus = bonus;
@@ -39,7 +40,7 @@ public class Holerite {
         this.salarioLiquido = salarioLiquido;
         this.dataPagamento = dataPagamento;
     }
-
+    
     //Getters para todos os atributos
 
     public int getIdHolerite() {
