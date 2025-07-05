@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package isptec.pii_tp2.grupo4;
-import java.time.LocalDate; // Para a data do período de referência e data de pagamento
+import java.time.LocalDate;
 
 /*
  Representa um holerite ou recibo de vencimento para um colaborador
@@ -42,7 +39,6 @@ public class Holerite {
     }
     
     //Getters para todos os atributos
-
     public int getIdHolerite() {
         return idHolerite;
     }
@@ -83,11 +79,6 @@ public class Holerite {
         return dataPagamento;
     }
 
-    /*
-    Retorna uma representacao em String do Holerite para exibicao.
-    Formata os valores monetarios para duas casas decimais.
-    */
-    
     public String toString() {
        
         return String.format(

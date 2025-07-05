@@ -32,7 +32,7 @@ public class Validador {
     
     public static boolean isNomeArquivoValido(String nomeArquivo) {
         if (!hasContent(nomeArquivo)) {
-            return false; // Não pode ser nulo ou vazio
+            return false; 
         }
         // Caracteres inválidos comuns em Windows/Linux para nomes de arquivo
         String caracteresInvalidos = "[<>:\"/\\\\|?*]";

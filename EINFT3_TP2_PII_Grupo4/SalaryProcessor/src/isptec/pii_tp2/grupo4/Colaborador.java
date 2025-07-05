@@ -94,15 +94,11 @@ public class Colaborador {
         this.dataAdmissao = dataAdmissao;
     }
 
-    //Métodos de operação de colaboradores
-    
-    //Recebe o Scanner como parâmetro para evitar muitas instâncias  
     public static boolean Cadastrar(Scanner sc) {
         Colaborador novo = new Colaborador();
 
         novo.setNumero(contador++);
 
-        // Campo obrigatorio: nome
         String nome;
         do {
             System.out.print("Informe o nome: ");
@@ -113,7 +109,6 @@ public class Colaborador {
         } while (!Validador.hasContent(nome));
         novo.setNome(nome);
 
-        // Email
         String email;
         do{
             System.out.print("Informe o email: ");
@@ -140,7 +135,6 @@ public class Colaborador {
         } while (!Validador.hasContent(morada));
         novo.setMorada(morada);
 
-        // Data de nascimento
         LocalDate dataNasc = null;
         boolean dataValida = false;
         do {
@@ -155,7 +149,6 @@ public class Colaborador {
         } while (!dataValida);
         novo.setDataNascimento(dataNasc);
 
-        // Funcao
         Funcao f = null;
         boolean cancelar = false;
         do {
@@ -211,17 +204,15 @@ public class Colaborador {
             if (!Validador.isEmailValido(email)) {
                 System.out.println("Formato de email invalido! Tente novamente ou pressione Enter para manter o atual.");
             } else {
-                // Verifica se o email ja existe, exceto se for o proprio email do colaborador
                 Colaborador cExistente = Pesquisar(email);
                 if (cExistente != null && cExistente.getNumero() != colaborador.getNumero()) {
                     System.out.println("Este email ja esta cadastrado para outro colaborador. Tente novamente ou pressione Enter para manter o atual.");
                     email = ""; // Para repetir o loop ou sair se for vazio
                 } else {
                     colaborador.setEmail(email);
-                    break; // Sai do loop se for valido e unico
+                    break; 
                 }
             }
-
         }while(true);
         
         System.out.print("Nova morada (" + colaborador.morada + "): ");
@@ -255,7 +246,6 @@ public class Colaborador {
                 System.out.println("Codigo da funcao invalido! Mantendo a anterior.");
             }
         }
-
         return colaborador;
     }
 
@@ -267,10 +257,10 @@ public class Colaborador {
             numero = sc.nextInt();
         } catch (Exception e) {
             System.out.println("Entrada invalida para o numero do colaborador.");
-            sc.nextLine(); // Limpa o buffer
+            sc.nextLine(); 
             return;
         }
-        sc.nextLine(); // Limpar buffer
+        sc.nextLine();
 
         for (Colaborador c : colaboradores) {
             if (c.getNumero() == numero && c.isActivo()) {
@@ -289,10 +279,8 @@ public class Colaborador {
         return null;
     }
 
-    // Método Pesquisar para pesquisar por email
     public static Colaborador Pesquisar(String email) {
         for (Colaborador c : colaboradores) {
-            // Verifica se o email não é nulo e ignora maiúsculas/minúsculas na comparação
             if (c.getEmail() != null && c.getEmail().equalsIgnoreCase(email)) {
                 return c;
             }
@@ -305,7 +293,6 @@ public class Colaborador {
             System.out.println("Nenhum colaborador cadastrado.");
             return;
         }
-
         System.out.println();
         System.out.println("================================================== COLABORADORES ATIVOS =================================================");
         System.out.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s |\n",

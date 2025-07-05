@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package isptec.pii_tp2.grupo4;
 
 import java.util.Scanner;
@@ -19,6 +16,7 @@ public class SalaryProcessor {
 
     public static void menuPrincipal(Scanner sc) {
         int op;
+        boolean sair = false; 
         do {
             System.out.println();
             System.out.println("=========================================");
@@ -33,7 +31,7 @@ public class SalaryProcessor {
             System.out.print("Escolha uma opcao: ");
             try {
                 op = sc.nextInt();
-                sc.nextLine(); // Limpa buffer
+                sc.nextLine(); 
             } catch (Exception e) {
                 System.out.println("Entrada invalida!");
                 sc.nextLine();
@@ -44,10 +42,13 @@ public class SalaryProcessor {
                 case 2 -> submenuFuncoes(sc);
                 case 3 -> submenuProcessamentoSalarios(sc);
                 case 4 -> submenuRelatorios(sc);
-                case 5 -> System.out.println("Saindo...");
+                case 5 -> {
+                    System.out.println("Saindo...");
+                    sair = true;
+                }
                 default -> System.out.println("Opcao invalida! Tente novamente.");
             }
-        } while (op != 5);
+        } while (!sair);
     }
 
     private static void submenuColaboradores(Scanner sc) {
@@ -74,7 +75,6 @@ public class SalaryProcessor {
                 sc.nextLine();
                 op1 = 0;
             }
-            OUTER:
             switch (op1) {
                 case 1 -> {
                     while (Funcao.funcoes.isEmpty()) {
@@ -153,7 +153,7 @@ public class SalaryProcessor {
                             } catch (Exception e) {
                                 System.out.println("Entrada invalida para o numero.");
                                 sc.nextLine();
-                                break OUTER;
+                                break;
                             }
                             sc.nextLine();
                             c = Colaborador.Pesquisar(numeroPesquisar);
