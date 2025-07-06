@@ -1,0 +1,5 @@
+Nome;Email;Morada;DataNascimento;FuncaoCodigo;FuncaoNome;FuncaoSalarioBase;FuncaoBonus;DataAdmissao;Ativo
+Emanuel dos Santos;20230429@isptec.co.ao;Viana;2004-03-27;1;Quality Assurance Developer;650000.00;350000.00;2025-07-06;Sim
+Carlos Tchipia;20221196@isptec.co.ao;Cazenga;2003-12-01;4;Software Systems Analyst;500000.00;100000.00;2025-07-06;Sim
+Abel Canas;20231051@isptec.co.ao;Camama;2003-07-02;3;Information Technology;450500.00;15000.00;2025-07-06;Sim
+Silvia Antonio;silvia.antonio@isptec.co.ao;Benfica;1986-08-16;5;Consultor(a) de TI;850500.00;550500.00;2025-07-06;Sim

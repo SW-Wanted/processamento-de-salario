@@ -98,11 +98,11 @@ public class HoleriteManager {
         double bonusColaborador = colaboradorEncontrado.getFuncao().getBonus();
 
         // --- Calcular Salário Bruto ---
-        double salarioBruto = CalculadoraSalario.calcularSalarioBruto(salarioBaseColaborador, bonusColaborador);
+        double salarioBruto = SalaryCalculator.calcularSalarioBruto(salarioBaseColaborador, bonusColaborador);
 
         // --- Calcular Deduções ---
-        double valorIRT = CalculadoraSalario.calcularIRT(salarioBruto);
-        double valorINSS = CalculadoraSalario.calcularINSS(salarioBruto);
+        double valorIRT = SalaryCalculator.calcularIRT(salarioBruto);
+        double valorINSS = SalaryCalculator.calcularINSS(salarioBruto);
 
         // --- Calcular Salário Líquido ---
         double salarioLiquido = salarioBruto - valorIRT - valorINSS;
@@ -185,7 +185,7 @@ public class HoleriteManager {
         }
 
         String dataAtual = java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH'h'mm"));
-        String pasta = "relatorios/holerites/";
+        String pasta = "reports/holerites/";
         String ext = ".txt";
         String nomeArquivo = pasta + "holerite_" + dataAtual + ext;
 
@@ -248,7 +248,7 @@ public class HoleriteManager {
             } else {
                 writer.println("Todos os Holerites");
             }
-            writer.println("---------------------------------------------------------------------------------------------------");
+            writer.println("--------------------------------------------------------------------------------------------------------------------------");
             writer.printf("%-4s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-12s |\n",
                     "ID", "Colaborador", "Periodo", "Base", "Bonus", "Bruto", "IRT", "INSS", "Liquido");
             writer.println("-----|----------------------|------------|------------|------------|------------|------------|------------|--------------|");
@@ -265,7 +265,7 @@ public class HoleriteManager {
                         h.getValorINSS(),
                         h.getSalarioLiquido());
             }
-            writer.println("---------------------------------------------------------------------------------------------------");
+            writer.println("--------------------------------------------------------------------------------------------------------------------------");
             System.out.println("Relatorio de holerites exportado com sucesso para " + nomeArquivo);
 
         } catch (IOException e) {

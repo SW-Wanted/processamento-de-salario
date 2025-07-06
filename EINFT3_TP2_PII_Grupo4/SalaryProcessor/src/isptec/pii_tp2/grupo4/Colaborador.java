@@ -308,16 +308,16 @@ public class Colaborador {
         }
 
         System.out.println();
-        System.out.println("================================================== COLABORADORES ATIVOS =================================================");
-        System.out.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s |\n",
+        System.out.println("============================================================== COLABORADORES ATIVOS ==============================================================");
+        System.out.printf("%-4s | %-25s | %-30s | %-15s | %-12s | %-30s | %-10s |\n",
                 "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao");
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------");
 
         boolean algumAtivo = false;
         for (Colaborador c : colaboradores) {
             if (c.isActivo()) {
                 algumAtivo = true;
-                System.out.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s |\n",
+                System.out.printf("%-4d | %-25s | %-30s | %-15s | %-12s | %-30s | %-10s |\n",
                         c.getNumero(),
                         c.getNome(),
                         c.getEmail(),
@@ -370,7 +370,7 @@ public class Colaborador {
         }
 
         String dataAtual = java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH'h'mm"));
-        String pasta = "relatorios/colaboradores/";
+        String pasta = "reports/colaboradores/";
         String nomeArquivo = pasta + "colaboradores_" + dataAtual + ".txt";
 
 
@@ -386,13 +386,13 @@ public class Colaborador {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo))) {
-            writer.println("===================================== RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO ============================================");
-            writer.printf("%-4s | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
+            writer.println("================================================ RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO ==========================================================");
+            writer.printf("%-4s | %-25s | %-30s | %-15s | %-12s | %-30s | %-10s | %-5s |\n",
                     "ID", "Nome", "Email", "Morada", "Nascimento", "Funcao", "Admissao", "Ativo");
-            writer.println("---------------------------------------------------------------------------------------------------------------------------------");
+            writer.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             for (Colaborador c : colaboradoresOrdenados) {
-                writer.printf("%-4d | %-20s | %-25s | %-15s | %-12s | %-15s | %-10s | %-5s |\n",
+                writer.printf("%-4d | %-25s | %-30s | %-15s | %-12s | %-30s | %-10s | %-5s |\n",
                         c.getNumero(),
                         c.getNome(),
                         c.getEmail(),
@@ -407,6 +407,156 @@ public class Colaborador {
         } catch (IOException e) {
             System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
             System.err.println("Verifique as permissoes de escrita ou se o caminho esta correto.");
+        }
+    }
+
+    // Listar colaboradores disponieis para importar
+    private static boolean ListarArquivosColaboradoresDisponiveis(String folderName) {
+        File dir = new File(folderName);
+
+        File[] arquivos = dir.listFiles((_, nome) -> nome.toLowerCase().endsWith(".csv"));
+        if (arquivos == null || arquivos.length == 0) {
+            System.out.println("Nenhum arquivo CSV de colaboradores encontrado na pasta: " + dir.getAbsolutePath());
+            return false;
+        }
+
+        System.out.println("Arquivos CSV de colaboradores disponiveis:");
+        for (File arquivo : arquivos) {
+            System.out.println("- " + arquivo.getName());
+        }
+        return true;
+    }
+    
+    // Adicionar uma funcao para importar colaboradores de um arquivo CSV
+    public static void ImportarColaboradores(Scanner sc) {
+        String folderName = "exports/colaboradores/";
+        if (!ListarArquivosColaboradoresDisponiveis(folderName))
+            return;
+        System.out.print("Informe o nome do arquivo para importar colaboradores: ");
+        String caminhoArquivo = sc.nextLine().trim();
+        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+            System.out.println("Caminho do arquivo invalido.");
+            return;
+        }
+        caminhoArquivo = folderName + caminhoArquivo;
+        if (!caminhoArquivo.toLowerCase().endsWith(".csv")) {
+            caminhoArquivo += ".csv";
+        }
+        File arquivo = new File(caminhoArquivo);
+        if (!arquivo.exists()) {
+            System.out.println("Arquivo nao encontrado: " + caminhoArquivo);
+            return;
+        }
+        try (Scanner scanner = new Scanner(arquivo)) {
+            boolean primeiraLinha = true;
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                // Ignora cabeçalho se existir
+                if (primeiraLinha && linha.toLowerCase().contains("nome;email;morada")) {
+                    primeiraLinha = false;
+                    continue;
+                }
+                primeiraLinha = false;
+
+                String[] campos = linha.split(";");
+                if (campos.length < 10) {
+                    System.out.println("Linha invalida no arquivo: " + linha);
+                    continue;
+                }
+
+                Colaborador colaborador = new Colaborador();
+                colaborador.setNumero(contador++);
+                colaborador.setNome(campos[0].trim());
+                colaborador.setEmail(campos[1].trim());
+                colaborador.setMorada(campos[2].trim());
+                colaborador.setDataNascimento(LocalDate.parse(campos[3].trim()));
+
+                // Dados da função
+                int funcaoCodigo = Integer.parseInt(campos[4].trim());
+                String funcaoNome = campos[5].trim();
+                double funcaoSalarioBase = Double.parseDouble(campos[6].trim());
+                double funcaoBonus = Double.parseDouble(campos[7].trim());
+
+                // Procura função existente pelo código
+                Funcao funcao = Funcao.Pesquisar(funcaoCodigo);
+                if (funcao == null) {
+                    funcao = new Funcao();
+                    funcao.setCodigo(funcaoCodigo);
+                    funcao.setNome(funcaoNome);
+                    funcao.setSalarioBase(funcaoSalarioBase);
+                    funcao.setBonus(funcaoBonus);
+                    Funcao.funcoes.add(funcao);
+                } else {
+                    // Atualiza dados da função se necessário
+                    funcao.setNome(funcaoNome);
+                    funcao.setSalarioBase(funcaoSalarioBase);
+                    funcao.setBonus(funcaoBonus);
+                }
+                colaborador.setFuncao(funcao);
+
+                colaborador.setDataAdmissao(LocalDate.parse(campos[8].trim()));
+                colaborador.setActivo("Sim".equalsIgnoreCase(campos[9].trim()));
+
+                colaboradores.add(colaborador);
+            }
+            System.out.println("Colaboradores importados com sucesso do arquivo: " + caminhoArquivo);
+        } catch (Exception e) {
+            System.err.println("Erro ao importar colaboradores: " + e.getMessage());
+        }
+    }
+
+    // Adicionar uma funcao para exportar colaboradores para um arquivo CSV
+    public static void ExportarColaboradores(Scanner sc) {
+        if (colaboradores.isEmpty()) {
+            System.out.println("Nenhum colaborador cadastrado para exportar.");
+            return;
+        }
+        String folderName = "exports/colaboradores/";
+        File pasta = new File(folderName);
+        if (!pasta.exists()) {
+            pasta.mkdirs();
+        }
+        System.out.print("Informe o nome do arquivo para exportar colaboradores: ");
+        String caminhoArquivo = sc.nextLine().trim();
+        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+            System.out.println("Caminho do arquivo invalido.");
+            return;
+        }
+        caminhoArquivo = folderName + caminhoArquivo;
+        if (!caminhoArquivo.toLowerCase().endsWith(".csv")) {
+            caminhoArquivo += ".csv";
+        }
+
+        if (new File(caminhoArquivo).exists()) {
+            System.out.print("O arquivo ja existe. Deseja sobrescrever? (s/n): ");
+            String resposta = sc.nextLine().trim().toLowerCase();
+            if (!resposta.equals("s")) {
+                System.out.println("Exportacao cancelada pelo usuario.");
+                return;
+            }
+        }
+        try (PrintWriter writer = new PrintWriter(new FileWriter(caminhoArquivo))) {
+            // Cabeçalho para clareza
+            writer.println("Nome;Email;Morada;DataNascimento;FuncaoCodigo;FuncaoNome;FuncaoSalarioBase;FuncaoBonus;DataAdmissao;Ativo");
+            for (Colaborador c : colaboradores) {
+                if (c.isActivo()) { // Exporta apenas colaboradores ativos
+                    Funcao f = c.getFuncao();
+                    writer.printf("%s;%s;%s;%s;%d;%s;%.2f;%.2f;%s;%s\n",
+                            c.getNome(),
+                            c.getEmail(),
+                            c.getMorada(),
+                            c.getDataNascimento() != null ? c.getDataNascimento().toString() : "N/A",
+                            f != null ? f.getCodigo() : 0,
+                            f != null ? f.getNome() : "N/A",
+                            f != null ? f.getSalarioBase() : 0.0,
+                            f != null ? f.getBonus() : 0.0,
+                            c.getDataAdmissao() != null ? c.getDataAdmissao().toString() : "N/A",
+                            c.isActivo() ? "Sim" : "Nao");
+                }
+            }
+            System.out.println("Colaboradores exportados com sucesso para o arquivo: " + caminhoArquivo);
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
         }
     }
 }

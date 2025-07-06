@@ -92,20 +92,20 @@ public class Holerite {
             "=========================================================\n" +
             "| RECIBO DE VENCIMENTO                                  |\n" +
             "=========================================================\n" +
-            "| Colaborador: %-35s |\n" +
-            "| ID: %-42d |\n" +
-            "| Fucao: %-40s |\n" +
-            "| Periodo de Referencia: %-25s |\n" +
-            "| Data de Processamento: %-25s |\n" +
+            "| Colaborador: %-40s |\n" +
+            "| ID: %-40d          |\n" +
+            "| Fucao: %-40s       |\n" +
+            "| Periodo de Referencia: %-30s |\n" +
+            "| Data de Processamento: %-30s |\n" +
             "---------------------------------------------------------\n" +
-            "| Salario Base:            %,15.2f KZ                    |\n" +
-            "| Bonus           :        %,15.2f KZ                    |\n" +
+            "| Salario Base:            %,15.2f KZ           |\n" +
+            "| Bonus           :        %,15.2f KZ           |\n" +
             "---------------------------------------------------------\n" +
-            "| Salario Bruto:           %,15.2f KZ                    |\n" +
-            "| (-) IRT:                 %,15.2f KZ                    |\n" +
-            "| (-) Seguranca Social:    %,15.2f KZ                    |\n" +
+            "| Salario Bruto:           %,15.2f KZ           |\n" +
+            "| (-) IRT:                 %,15.2f KZ           |\n" +
+            "| (-) Seguranca Social:    %,15.2f KZ           |\n" +
             "---------------------------------------------------------\n" +
-            "| Salario Liquido:         %,15.2f KZ                    |\n" +
+            "| Salario Liquido:         %,15.2f KZ           |\n" +
             "=========================================================\n",
             colaborador.getNome(),
             colaborador.getNumero(),
