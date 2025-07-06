@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package isptec.pii_tp2.grupo4;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -93,7 +91,7 @@ public class HoleriteManager {
             }
         }
 
-        // --- Obter dados da Função no momento do processamento ---
+        // Obter dados da Função no momento do processamento 
         double salarioBaseColaborador = colaboradorEncontrado.getFuncao().getSalarioBase();
         double bonusColaborador = colaboradorEncontrado.getFuncao().getBonus();
 
@@ -104,10 +102,10 @@ public class HoleriteManager {
         double valorIRT = SalaryCalculator.calcularIRT(salarioBruto);
         double valorINSS = SalaryCalculator.calcularINSS(salarioBruto);
 
-        // --- Calcular Salário Líquido ---
+        // Calcular Salário Líquido
         double salarioLiquido = salarioBruto - valorIRT - valorINSS;
 
-        // --- Criar e Armazenar o Holerite ---
+        // Criar e Armazenar o Holerite
         Holerite novoHolerite = new Holerite(
                 colaboradorEncontrado,
                 periodoReferencia,
@@ -117,17 +115,14 @@ public class HoleriteManager {
                 valorIRT,
                 valorINSS,
                 salarioLiquido,
-                LocalDate.now() // Data de processamento é a data atual
+                LocalDate.now() 
         );
-
+        
         this.holeritesGerados.add(novoHolerite); 
         System.out.println("\nHolerite gerado com sucesso para " + colaboradorEncontrado.getNome() + "!");
         System.out.println(novoHolerite.toString());
     }
 
-    /*
-     Lista todos os holerites gerados ou holerites de um colaborador especifico.
-     */
     public void listarHolerites(Scanner sc) {
         System.out.println("\n--- LISTA DE HOLERITES GERADOS ---");
         if (holeritesGerados.isEmpty()) {

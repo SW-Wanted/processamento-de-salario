@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package isptec.pii_tp2.grupo4;
 
 import java.util.ArrayList;
@@ -57,24 +54,18 @@ public class Funcao {
         this.bonus = bonus;
     }
 
-    // Métodos equals() e hashCode() para garantir comparações corretas 
     public boolean equals(Object obj) {
-        // Se o objeto for a própria instância, são iguais
         if (this == obj) {
             return true;
         }
-        // Se o objeto for nulo ou de uma classe diferente, não são iguais
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        // Converte o objeto para Funcao
         Funcao outraFuncao = (Funcao) obj;
-        // Compara as funções com base em seus códigos
         return this.codigo == outraFuncao.codigo;
     }
     
     public int hashCode() {
-        // Se dois objetos são iguais (equals retorna true), eles DEVEM ter o mesmo hashCode.
         return Objects.hash(codigo); 
     }
     
@@ -103,7 +94,7 @@ public class Funcao {
         } while (!Validator.hasContent(nomeFuncao));
         f.setNome(nomeFuncao);
 
-        // Campo obrigatorio: salario base > 0
+        // salario base deve ser > 0
         double salarioBase = -1;
         do {
             System.out.print("Informe o salario base (kz): ");
@@ -121,7 +112,7 @@ public class Funcao {
         } while (salarioBase <= 0);
         f.setSalarioBase(salarioBase);
 
-        // Campo obrigatorio: bonus > 0
+        // bonus deve ser > 0
         double bonus = -1;
         do {
             System.out.print("Informe o bonus (kz): ");
@@ -139,7 +130,7 @@ public class Funcao {
         } while (bonus <= 0);
         f.setBonus(bonus);
 
-        sc.nextLine(); // Limpar buffer
+        sc.nextLine();
 
         return funcoes.add(f);
     }
@@ -175,13 +166,12 @@ public class Funcao {
 
         // Verifica se a função está associada a algum colaborador
         for (Colaborador c : Colaborador.colaboradores) {
-            // Usa o método equals de Funcao para comparar objetos
             if (c.getFuncao() != null && c.getFuncao().equals(funcaoParaRemover)) {
                 System.out.println("Nao eh possível eliminar a funcao. Esta associada ao colaborador: " + c.getNome());
                 return false;
             }
         }
-        // Se não estiver associada a nenhum colaborador, pode remover
+        // Removemos a função se não estiver associada a nenhum colaborador
         funcoes.remove(funcaoParaRemover);
         System.out.println("Funcao eliminada com sucesso!");
         return true;

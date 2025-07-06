@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package isptec.pii_tp2.grupo4;
 
 import java.util.Scanner;
@@ -19,6 +16,7 @@ public class SalaryProcessor {
 
     private static void menuPrincipal(Scanner sc) {
         int op;
+        boolean sair = false; 
         do {
             System.out.println();
             System.out.println("=========================================");
@@ -32,7 +30,7 @@ public class SalaryProcessor {
             System.out.print("Escolha uma opcao: ");
             try {
                 op = sc.nextInt();
-                sc.nextLine(); // Limpa buffer
+                sc.nextLine(); 
             } catch (Exception e) {
                 System.out.println("Entrada invalida!");
                 sc.nextLine();
@@ -142,24 +140,26 @@ public class SalaryProcessor {
                         break;
                     }
                     Colaborador c = null;
-                    if (opc == 1) {
-                        System.out.print("Informe o numero do colaborador a pesquisar: ");
-                        int numeroPesquisar;
-                        try {
-                            numeroPesquisar = sc.nextInt();
-                        } catch (Exception e) {
-                            System.out.println("Entrada invalida para o numero.");
+                    switch (opc) {
+                        case 1 -> {
+                            System.out.print("Informe o numero do colaborador a pesquisar: ");
+                            int numeroPesquisar;
+                            try {
+                                numeroPesquisar = sc.nextInt();
+                            } catch (Exception e) {
+                                System.out.println("Entrada invalida para o numero.");
+                                sc.nextLine();
+                                break;
+                            }
                             sc.nextLine();
-                            break;
-                        }
-                        sc.nextLine();
-                        c = Colaborador.Pesquisar(numeroPesquisar);
-                    } else if (opc == 2) {
-                        System.out.print("Informe o email do colaborador a pesquisar: ");
-                        String emailPesquisar = sc.nextLine();
-                        c = Colaborador.Pesquisar(emailPesquisar);
-                    } else {
-                        System.out.println("Opcao de pesquisa invalida.");
+                            c = Colaborador.Pesquisar(numeroPesquisar);
+                    }
+                        case 2 -> {
+                            System.out.print("Informe o email do colaborador a pesquisar: ");
+                            String emailPesquisar = sc.nextLine();
+                            c = Colaborador.Pesquisar(emailPesquisar);
+                    }
+                        default -> System.out.println("Opcao de pesquisa invalida.");
                     }
                     if (c != null) {
                         System.out.println(
