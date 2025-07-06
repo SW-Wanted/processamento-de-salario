@@ -87,7 +87,7 @@ public class Funcao {
         do {
             System.out.print("Informe o nome da funcao: ");
             nomeFuncao = sc.nextLine();
-            if (!Validador.hasContent(nomeFuncao)) {
+            if (!Validator.hasContent(nomeFuncao)) {
                 System.out.println("O nome da funcao nao pode ser vazio.");
             } else {
                 boolean existe = false;
@@ -100,7 +100,7 @@ public class Funcao {
                 }
                 if (existe) nomeFuncao = "";
             }
-        } while (!Validador.hasContent(nomeFuncao));
+        } while (!Validator.hasContent(nomeFuncao));
         f.setNome(nomeFuncao);
 
         // Campo obrigatorio: salario base > 0
@@ -109,7 +109,7 @@ public class Funcao {
             System.out.print("Informe o salario base (kz): ");
             try {
                 salarioBase = sc.nextDouble();
-                if (!Validador.isValorPositivo(salarioBase)) {
+                if (!Validator.isValorPositivo(salarioBase)) {
                     System.out.println("Salario base deve ser maior que zero.");
                     salarioBase = -1;
                 }
@@ -127,7 +127,7 @@ public class Funcao {
             System.out.print("Informe o bonus (kz): ");
             try {
                 bonus = sc.nextDouble();
-                if (!Validador.isValorPositivo(bonus)) {
+                if (!Validator.isValorPositivo(bonus)) {
                     System.out.println("Bonus deve ser maior que zero.");
                     bonus = -1;
                 }
@@ -229,7 +229,7 @@ public class Funcao {
             return;
         System.out.print("Informe o nome do arquivo para importar funcoes: ");
         String caminhoArquivo = sc.nextLine().trim();
-        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
             System.out.println("Caminho do arquivo invalido.");
             return;
         }
@@ -284,7 +284,7 @@ public class Funcao {
         }
         System.out.print("Informe o nome do arquivo para exportar funcoes: ");
         String caminhoArquivo = sc.nextLine().trim();
-        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
             System.out.println("Caminho do arquivo invalido.");
             return;
         }
@@ -330,15 +330,15 @@ public class Funcao {
         System.out.println("Atualizando funcao: " + funcao.getNome());
         System.out.print("Novo nome (" + funcao.getNome() + "): ");
         String nome = sc.nextLine();
-        if (Validador.hasContent(nome)) {
+        if (Validator.hasContent(nome)) {
             funcao.setNome(nome);
         }
         System.out.print("Novo salario base (" + funcao.getSalarioBase() + "): ");
         String salarioStr = sc.nextLine();
-        if (Validador.hasContent(salarioStr)) {
+        if (Validator.hasContent(salarioStr)) {
             try {
                 double salario = Double.parseDouble(salarioStr);
-                if (Validador.isValorPositivo(salario)) {
+                if (Validator.isValorPositivo(salario)) {
                     funcao.setSalarioBase(salario);
                 } else {
                     System.out.println("Salario base deve ser maior que zero. Mantendo valor anterior.");
@@ -349,10 +349,10 @@ public class Funcao {
         }
         System.out.print("Novo bonus (" + funcao.getBonus() + "): ");
         String bonusStr = sc.nextLine();
-        if (Validador.hasContent(bonusStr)) {
+        if (Validator.hasContent(bonusStr)) {
             try {
                 double bonus = Double.parseDouble(bonusStr);
-                if (Validador.isValorPositivo(bonus)) {
+                if (Validator.isValorPositivo(bonus)) {
                     funcao.setBonus(bonus);
                 } else {
                     System.out.println("Bonus deve ser maior que zero. Mantendo valor anterior.");

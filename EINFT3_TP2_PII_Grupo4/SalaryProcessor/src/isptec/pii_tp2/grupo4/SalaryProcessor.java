@@ -17,7 +17,7 @@ public class SalaryProcessor {
         sc.close();
     }
 
-    public static void menuPrincipal(Scanner sc) {
+    private static void menuPrincipal(Scanner sc) {
         int op;
         do {
             System.out.println();
@@ -328,7 +328,7 @@ public class SalaryProcessor {
                     System.out.print("Deseja imprimir o holerite agora? (s/n): ");
                     String resposta = sc.nextLine().trim().toLowerCase();
                     if (resposta.equals("s")) {
-                        holeriteManager.exportarHoleritesParaTXT(sc);
+                        holeriteManager.exportarHolerites(sc);
                     }
                 }
                 case 2 -> holeriteManager.listarHolerites(sc);

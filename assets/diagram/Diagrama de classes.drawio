@@ -1,0 +1,105 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/27.0.9 Chrome/134.0.6998.205 Electron/35.4.0 Safari/537.36" version="27.0.9">
+  <diagram name="Página-1" id="h2e2HsCXoPXAvPkffeis">
+    <mxGraphModel dx="1111" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-9" target="wYhj-3g6WHjmHW5ekeaX-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-9" value="SalaryProcessor" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="50" width="250" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-11" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-9">
+          <mxGeometry y="26" width="250" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-10" value="- holeriteManager: HoleriteManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-9">
+          <mxGeometry y="34" width="250" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-12" value="+ main(String[]): void&lt;div&gt;- menuPrincipal(): void&lt;/div&gt;&lt;div&gt;- submenuColaboradores(): void&lt;/div&gt;&lt;div&gt;- submenuFuncoes(): void&lt;/div&gt;&lt;div&gt;- submenuProcessamentoSalarios(): void&amp;nbsp;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-9">
+          <mxGeometry y="60" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-13" value="HoleriteManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="50" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-14" value="+ holeritesGerados: ArrayList&amp;lt;Holderite&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-13">
+          <mxGeometry y="26" width="230" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-15" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-13">
+          <mxGeometry y="60" width="230" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-16" value="+ gerarHolerite(): void&lt;div&gt;+ listarHolerites(): void&lt;/div&gt;&lt;div&gt;+ exportarHolerites(): void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-13">
+          <mxGeometry y="68" width="230" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-17" value="Holerite" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="200" width="300" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-18" value="&lt;div&gt;- idHolerite: int&lt;/div&gt;- colaborador: Colaborador&lt;div&gt;- periodoReferencia: LocalDate&lt;/div&gt;&lt;div&gt;- dataPagamento: LocalDate&lt;/div&gt;&lt;div&gt;- salarioBase: double&lt;/div&gt;&lt;div&gt;- valorIRT: double&lt;/div&gt;&lt;div&gt;- valorINSS: double&lt;/div&gt;&lt;div&gt;- salarioLiquido: double&lt;/div&gt;&lt;div&gt;- bonus: double&lt;/div&gt;&lt;div&gt;- salarioBruto: double&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-17">
+          <mxGeometry y="26" width="300" height="154" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-19" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-17">
+          <mxGeometry y="180" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-20" value="+ toString(): String&lt;div&gt;....&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-17">
+          <mxGeometry y="188" width="300" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-25" value="Funcao" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="280" width="170" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-26" value="- codigo: int&lt;div&gt;- nome: String&lt;/div&gt;&lt;div&gt;- salarioBase: double&lt;/div&gt;&lt;div&gt;- bonus: double&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-25">
+          <mxGeometry y="26" width="170" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-27" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-25">
+          <mxGeometry y="110" width="170" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-29" value="Colaborador" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="270" width="170" height="178" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-30" value="- numero: int&lt;div&gt;- nome: String&lt;/div&gt;&lt;div&gt;- morada: String&lt;/div&gt;&lt;div&gt;- email: String&lt;/div&gt;&lt;div&gt;- dataNascimento: LocalDate&lt;/div&gt;&lt;div&gt;- funcao: Funcao&lt;/div&gt;&lt;div&gt;- activo: bollean&lt;/div&gt;&lt;div&gt;- dataAdmissao: LocalDate&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-29">
+          <mxGeometry y="26" width="170" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-31" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-29">
+          <mxGeometry y="170" width="170" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-5" value="SalaryCalculator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="150" width="300" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-7" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-5">
+          <mxGeometry y="26" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-8" value="+ calcularIRT(double): double&lt;div&gt;+ calcularINSS(double): double&lt;/div&gt;&lt;div&gt;+ calcularSalarioBruto(double, double): double&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-5">
+          <mxGeometry y="34" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-1" value="Validator" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="410" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-1">
+          <mxGeometry y="26" width="300" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-4" value="+ isEmailValid(String): boolean&amp;nbsp;&lt;div&gt;+ validarData(String): LocalDate&lt;/div&gt;&lt;div&gt;+ isValorPositivo(double): boolean&lt;/div&gt;&lt;div&gt;+ hasContent(String): boolean&lt;/div&gt;&lt;div&gt;+ isNomeArquivoValido(String): boolean&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="wYhj-3g6WHjmHW5ekeaX-1">
+          <mxGeometry y="34" width="300" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.013;entryY=0.63;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-14" target="wYhj-3g6WHjmHW5ekeaX-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="83" />
+              <mxPoint x="980" y="323" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-15" target="wYhj-3g6WHjmHW5ekeaX-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-12" target="wYhj-3g6WHjmHW5ekeaX-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-12" target="wYhj-3g6WHjmHW5ekeaX-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYhj-3g6WHjmHW5ekeaX-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wYhj-3g6WHjmHW5ekeaX-12" target="wYhj-3g6WHjmHW5ekeaX-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

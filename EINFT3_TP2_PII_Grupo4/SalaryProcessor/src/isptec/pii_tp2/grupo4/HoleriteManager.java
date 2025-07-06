@@ -177,7 +177,7 @@ public class HoleriteManager {
         }
     }
     
-    public void exportarHoleritesParaTXT(Scanner sc) {
+    public void exportarHolerites(Scanner sc) {
         System.out.println("\n--- EXPORTAR RELATORIO DE HOLERITES PARA TXT ---");
         if (holeritesGerados.isEmpty()) {
             System.out.println("Nenhum holerite gerado para exportar.");

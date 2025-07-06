@@ -108,10 +108,10 @@ public class Colaborador {
         do {
             System.out.print("Informe o nome: ");
             nome = sc.nextLine();
-            if (!Validador.hasContent(nome)) {
+            if (!Validator.hasContent(nome)) {
                 System.out.println("O nome nao pode ser vazio.");
             }
-        } while (!Validador.hasContent(nome));
+        } while (!Validator.hasContent(nome));
         novo.setNome(nome);
 
         // Email
@@ -119,7 +119,7 @@ public class Colaborador {
         do{
             System.out.print("Informe o email: ");
             email = sc.nextLine();
-            if(!Validador.isEmailValido(email)){
+            if(!Validator.isEmailValido(email)){
                 System.out.println("Formato de email invalido! Tente novamente.");
             }else{
                 if(Pesquisar(email)!= null){
@@ -127,7 +127,7 @@ public class Colaborador {
                     email = null;
                 }
             }
-        }while(!Validador.isEmailValido(email) || email == null);
+        }while(!Validator.isEmailValido(email) || email == null);
         novo.setEmail(email);
 
         // Morada
@@ -135,10 +135,10 @@ public class Colaborador {
         do {
             System.out.print("Informe a morada: ");
             morada = sc.nextLine();
-            if (!Validador.hasContent(morada)) {
+            if (!Validator.hasContent(morada)) {
                 System.out.println("A morada nao pode ser vazia.");
             }
-        } while (!Validador.hasContent(morada));
+        } while (!Validator.hasContent(morada));
         novo.setMorada(morada);
 
         // Data de nascimento
@@ -147,7 +147,7 @@ public class Colaborador {
         do {
             System.out.print("Informe a data de nascimento (YYYY-MM-DD): ");
             String dataStr = sc.nextLine();
-            dataNasc = Validador.validarData(dataStr);
+            dataNasc = Validator.validarData(dataStr);
             if (dataNasc == null) {
                 System.out.println("Data de nascimento invalida ou no futuro! Tente novamente.");
             } else {
@@ -209,7 +209,7 @@ public class Colaborador {
             if (email.isEmpty()) { // Usuario nao quer alterar o email
                 break;
             }
-            if (!Validador.isEmailValido(email)) {
+            if (!Validator.isEmailValido(email)) {
                 System.out.println("Formato de email invalido! Tente novamente ou pressione Enter para manter o atual.");
             } else {
                 // Verifica se o email ja existe, exceto se for o proprio email do colaborador
@@ -232,7 +232,7 @@ public class Colaborador {
         System.out.print("Nova data de nascimento (" + (colaborador.getDataNascimento() != null ? colaborador.getDataNascimento().toString() : "N/A") + "): ");
         String dataStr = sc.nextLine();
         if (!dataStr.isEmpty()) {
-            LocalDate dataNasc = Validador.validarData(dataStr);
+            LocalDate dataNasc = Validator.validarData(dataStr);
             if (dataNasc == null) {
                 System.out.println("Data de nascimento invalida ou no futuro! Mantendo a anterior.");
             } else {
@@ -434,7 +434,7 @@ public class Colaborador {
             return;
         System.out.print("Informe o nome do arquivo para importar colaboradores: ");
         String caminhoArquivo = sc.nextLine().trim();
-        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
             System.out.println("Caminho do arquivo invalido.");
             return;
         }
@@ -518,7 +518,7 @@ public class Colaborador {
         }
         System.out.print("Informe o nome do arquivo para exportar colaboradores: ");
         String caminhoArquivo = sc.nextLine().trim();
-        if (!Validador.isNomeArquivoValido(caminhoArquivo)) {
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
             System.out.println("Caminho do arquivo invalido.");
             return;
         }

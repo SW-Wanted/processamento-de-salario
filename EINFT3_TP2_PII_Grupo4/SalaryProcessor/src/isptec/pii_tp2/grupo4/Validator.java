@@ -3,7 +3,7 @@ package isptec.pii_tp2.grupo4;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class Validador {
+public class Validator {
 
     public static boolean isEmailValido(String email) {
         String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
