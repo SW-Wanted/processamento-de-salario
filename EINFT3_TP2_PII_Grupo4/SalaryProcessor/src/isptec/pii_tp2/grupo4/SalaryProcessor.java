@@ -16,7 +16,6 @@ public class SalaryProcessor {
 
     private static void menuPrincipal(Scanner sc) {
         int op;
-        boolean sair = false; 
         do {
             System.out.println();
             System.out.println("=========================================");

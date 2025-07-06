@@ -25,7 +25,6 @@ public class Holerite {
                     double salarioBase, double bonus, double salarioBruto,
                     double valorIRT, double valorSegurancaSocial, double salarioLiquido,
                     LocalDate dataPagamento) {
-        this.idHolerite = contadorHolerite++;
         this.colaborador = colaborador;
         this.periodoReferencia = periodoReferencia;
         this.bonus = bonus;
