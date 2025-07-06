@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
 import java.io.FileWriter; 
 import java.io.IOException; 
 import java.io.PrintWriter; 
@@ -260,7 +261,7 @@ public class Colaborador {
     }
 
     public static void Desactivar(Scanner sc) {
-        Imprimir();
+        ListarColaboradores();
         System.out.print("Informe o numero do colaborador a desativar: ");
         int numero;
         try {
@@ -300,7 +301,7 @@ public class Colaborador {
         return null;
     }
     
-    public static void Imprimir() {
+    public static void ListarColaboradores() {
         if (colaboradores.isEmpty()) {
             System.out.println("Nenhum colaborador cadastrado.");
             return;
@@ -361,25 +362,21 @@ public class Colaborador {
         }
     }
     
-    public static void ExportarParaTXT(Scanner sc) {
+    public static void ImprimirColaboradores(Scanner sc) {
         System.out.println("\n--- EXPORTAR RELATORIO DE COLABORADORES PARA TXT ---");
         if (colaboradores.isEmpty()) {
             System.out.println("Nenhum colaborador cadastrado para exportar.");
             return;
         }
 
-        System.out.print("Digite o nome do arquivo (ex: colaboradores.txt): ");
-        String nomeArquivo = sc.nextLine();
+        String dataAtual = java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH'h'mm"));
+        String pasta = "relatorios/colaboradores/";
+        String nomeArquivo = pasta + "colaboradores_" + dataAtual + ".txt";
 
-        // Validação do nome do arquivo
-        if (!Validador.isNomeArquivoValido(nomeArquivo)) {
-            System.out.println("Erro: Nome do arquivo invalido. Nao use caracteres como < > : \" / \\ | ? *");
-            return;
-        }
 
-        // Adiciona a extensão .txt se não estiver presente
-        if (!nomeArquivo.toLowerCase().endsWith(".txt")) {
-            nomeArquivo += ".txt";
+        File dir = new File(pasta);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
         // Ordena os colaboradores antes de escrever 

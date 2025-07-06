@@ -1,4 +1,0 @@
-===================================== RELATORIO: COLABORADORES POR ORDEM DE ADMISSAO ============================================
-ID   | Nome                 | Email                     | Morada          | Nascimento   | Funcao          | Admissao   | Ativo |
----------------------------------------------------------------------------------------------------------------------------------
-1    | carlos               | nevescarlos@gmail.com     | namibe          | 2003-12-01   | diretor         | 2025-06-25 | Sim   |

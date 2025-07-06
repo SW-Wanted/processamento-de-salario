@@ -13,7 +13,6 @@ import java.time.LocalDate; // Para a data do período de referência e data de 
 public class Holerite {
     
     private int idHolerite;
-    private static int contadorHolerite = 1;
     
     private Colaborador colaborador;
     private LocalDate periodoReferencia; // Ex: o 1º dia do mês para o qual o salário foi processado
