@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.File;
 import java.io.FileWriter; 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,7 +25,7 @@ public class HoleriteManager {
             System.out.println("Nenhum colaborador cadastrado. Cadastre um colaborador primeiro.");
             return;
         }
-
+        Colaborador.ListarColaboradores();
         System.out.print("Digite o ID do colaborador para gerar o holerite: ");
         int idColaborador;
         try {
@@ -94,12 +95,12 @@ public class HoleriteManager {
         double salarioBaseColaborador = colaboradorEncontrado.getFuncao().getSalarioBase();
         double bonusColaborador = colaboradorEncontrado.getFuncao().getBonus();
 
-        // Calcular Salário Bruto
-        double salarioBruto = CalculadoraSalario.calcularSalarioBruto(salarioBaseColaborador, bonusColaborador);
+        // --- Calcular Salário Bruto ---
+        double salarioBruto = SalaryCalculator.calcularSalarioBruto(salarioBaseColaborador, bonusColaborador);
 
-        // Calcular Deduções
-        double valorIRT = CalculadoraSalario.calcularIRT(salarioBruto);
-        double valorINSS = CalculadoraSalario.calcularINSS(salarioBruto);
+        // --- Calcular Deduções ---
+        double valorIRT = SalaryCalculator.calcularIRT(salarioBruto);
+        double valorINSS = SalaryCalculator.calcularINSS(salarioBruto);
 
         // Calcular Salário Líquido
         double salarioLiquido = salarioBruto - valorIRT - valorINSS;
@@ -133,6 +134,7 @@ public class HoleriteManager {
         String resposta = sc.nextLine().trim().toLowerCase();
 
         if (resposta.equals("s")) {
+            Colaborador.ListarColaboradores();
             System.out.print("Digite o ID do colaborador: ");
             int idColaborador;
             try {
@@ -170,23 +172,21 @@ public class HoleriteManager {
         }
     }
     
-    public void exportarHoleritesParaTXT(Scanner sc) {
+    public void exportarHolerites(Scanner sc) {
         System.out.println("\n--- EXPORTAR RELATORIO DE HOLERITES PARA TXT ---");
         if (holeritesGerados.isEmpty()) {
             System.out.println("Nenhum holerite gerado para exportar.");
             return;
         }
 
-        System.out.print("Digite o nome do arquivo (ex: holerites.txt): ");
-        String nomeArquivo = sc.nextLine();
+        String dataAtual = java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH'h'mm"));
+        String pasta = "reports/holerites/";
+        String ext = ".txt";
+        String nomeArquivo = pasta + "holerite_" + dataAtual + ext;
 
-        if (!Validador.isNomeArquivoValido(nomeArquivo)) {
-            System.out.println("Erro: Nome do arquivo invalido. Nao use caracteres como < > : \" / \\ | ? *");
-            return;
-        }
-
-        if (!nomeArquivo.toLowerCase().endsWith(".txt")) {
-            nomeArquivo += ".txt";
+        File dir = new File(pasta);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
         ArrayList<Holerite> holeritesAExportar = new ArrayList<>();
@@ -198,6 +198,7 @@ public class HoleriteManager {
 
         if (resposta.equals("s")) {
             filtrarPorColaborador = true;
+            Colaborador.ListarColaboradores();
             System.out.print("Digite o ID do colaborador: ");
             try {
                 idColaborador = sc.nextInt();
@@ -233,7 +234,6 @@ public class HoleriteManager {
             return h1.getPeriodoReferencia().compareTo(h2.getPeriodoReferencia());
         });
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter monthYearFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo))) {
@@ -243,7 +243,7 @@ public class HoleriteManager {
             } else {
                 writer.println("Todos os Holerites");
             }
-            writer.println("---------------------------------------------------------------------------------------------------");
+            writer.println("--------------------------------------------------------------------------------------------------------------------------");
             writer.printf("%-4s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s | %-12s |\n",
                     "ID", "Colaborador", "Periodo", "Base", "Bonus", "Bruto", "IRT", "INSS", "Liquido");
             writer.println("-----|----------------------|------------|------------|------------|------------|------------|------------|--------------|");
@@ -260,7 +260,7 @@ public class HoleriteManager {
                         h.getValorINSS(),
                         h.getSalarioLiquido());
             }
-            writer.println("---------------------------------------------------------------------------------------------------");
+            writer.println("--------------------------------------------------------------------------------------------------------------------------");
             System.out.println("Relatorio de holerites exportado com sucesso para " + nomeArquivo);
 
         } catch (IOException e) {

@@ -1,7 +1,11 @@
 
 package isptec.pii_tp2.grupo4;
 
-public class CalculadoraSalario {
+/**
+ *
+ * @author hp
+ */
+public class SalaryCalculator {
     public static double calcularIRT(double salarioBrutoMensal) {
         double irt = 0.0;
 

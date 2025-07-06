@@ -14,9 +14,8 @@ public class SalaryProcessor {
         sc.close();
     }
 
-    public static void menuPrincipal(Scanner sc) {
+    private static void menuPrincipal(Scanner sc) {
         int op;
-        boolean sair = false; 
         do {
             System.out.println();
             System.out.println("=========================================");
@@ -25,8 +24,7 @@ public class SalaryProcessor {
             System.out.println("|  1. Colaboradores                     |");
             System.out.println("|  2. Funcoes                           |");
             System.out.println("|  3. Processamento de Salarios         |");
-             System.out.println("|  4. Relatorios                        |");
-            System.out.println("|  5. Sair                              |");
+            System.out.println("|  4. Sair                              |");
             System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
@@ -41,14 +39,10 @@ public class SalaryProcessor {
                 case 1 -> submenuColaboradores(sc);
                 case 2 -> submenuFuncoes(sc);
                 case 3 -> submenuProcessamentoSalarios(sc);
-                case 4 -> submenuRelatorios(sc);
-                case 5 -> {
-                    System.out.println("Saindo...");
-                    sair = true;
-                }
+                case 4 -> System.out.println("Saindo...");
                 default -> System.out.println("Opcao invalida! Tente novamente.");
             }
-        } while (!sair);
+        } while (op != 4);
     }
 
     private static void submenuColaboradores(Scanner sc) {
@@ -64,7 +58,8 @@ public class SalaryProcessor {
             System.out.println("|  3. Desactivar                        |");
             System.out.println("|  4. Pesquisar                         |");
             System.out.println("|  5. Imprimir                          |");
-            System.out.println("|  6. Voltar                            |");
+            System.out.println("|  6. Importar/Exportar                 |");
+            System.out.println("|  7. Voltar                            |");
             System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
@@ -105,7 +100,7 @@ public class SalaryProcessor {
                     }
                 }
                 case 2 -> {
-                    Colaborador.Imprimir();
+                    Colaborador.ListarColaboradores();
                     System.out.print("Informe o numero do colaborador a atualizar: ");
                     int numeroAtualizar;
                     try {
@@ -185,8 +180,46 @@ public class SalaryProcessor {
                         System.out.println("Colaborador nao encontrado.");
                     }
                 }
-                case 5 -> Colaborador.Imprimir();
-                case 6 -> sair = true;
+                case 5 -> {
+                    Colaborador.ListarColaboradores();
+                    if (!Colaborador.colaboradores.isEmpty()) {
+                        System.out.print("Deseja imprimir os colaboradores? (s/n): ");
+                        String resposta = sc.nextLine().trim().toLowerCase();
+                        if (resposta.equals("s")) {
+                            Colaborador.ImprimirColaboradores(sc);
+                        }
+                    }
+                }
+                case 6 -> {
+                    boolean voltar = false;
+                    while (!voltar) {
+                        System.out.println();
+                        System.out.println("=========================================");
+                        System.out.println("|      IMPORTAR/EXPORTAR COLABORADOR    |");
+                        System.out.println("=========================================");
+                        System.out.println("|  1. Importar                          |");
+                        System.out.println("|  2. Exportar                          |");
+                        System.out.println("|  3. Voltar                            |");
+                        System.out.println("=========================================");
+                        System.out.print("Escolha uma opcao: ");
+                        int subOp;
+                        try {
+                            subOp = sc.nextInt();
+                            sc.nextLine();
+                        } catch (Exception e) {
+                            System.out.println("Entrada invalida!");
+                            sc.nextLine();
+                            subOp = 0;
+                        }
+                        switch (subOp) {
+                            case 1 -> Colaborador.ImportarColaboradores(sc);
+                            case 2 -> Colaborador.ExportarColaboradores(sc);
+                            case 3 -> voltar = true;
+                            default -> System.out.println("Opcao invalida! Tente novamente");
+                        }
+                    }
+                }
+                case 7 -> sair = true;
                 default -> System.out.println("Opcao invalida! Tente novamente");
             }
         }
@@ -201,9 +234,11 @@ public class SalaryProcessor {
             System.out.println("|           SUBMENU FUNCOES             |");
             System.out.println("=========================================");
             System.out.println("|  1. Criar                             |");
-            System.out.println("|  2. Eliminar                          |");
-            System.out.println("|  3. Imprimir                          |");
-            System.out.println("|  4. Voltar                            |");
+            System.out.println("|  2. Actualizar                        |");
+            System.out.println("|  3. Eliminar                          |");
+            System.out.println("|  4. Imprimir                          |");
+            System.out.println("|  5. Importar/Exportar                 |");
+            System.out.println("|  6. Voltar                            |");
             System.out.println("=========================================");
             System.out.print("Escolha uma opcao: ");
             try {
@@ -222,9 +257,39 @@ public class SalaryProcessor {
                         System.out.println("Falha ao criar funcao.");
                     }
                 }
-                case 2 -> Funcao.Eliminar(sc);
-                case 3 -> Funcao.Imprimir();
-                case 4 -> sair = true;
+                case 2 -> Funcao.Actualizar(sc);
+                case 3 -> Funcao.Eliminar(sc);
+                case 4 -> Funcao.Imprimir();
+                case 5 -> {
+                    boolean voltar = false;
+                    while (!voltar) {
+                        System.out.println();
+                        System.out.println("=========================================");
+                        System.out.println("|      IMPORTAR/EXPORTAR FUNCAO         |");
+                        System.out.println("=========================================");
+                        System.out.println("|  1. Importar                          |");
+                        System.out.println("|  2. Exportar                          |");
+                        System.out.println("|  3. Voltar                            |");
+                        System.out.println("=========================================");
+                        System.out.print("Escolha uma opcao: ");
+                        int subOp;
+                        try {
+                            subOp = sc.nextInt();
+                            sc.nextLine();
+                        } catch (Exception e) {
+                            System.out.println("Entrada invalida!");
+                            sc.nextLine();
+                            subOp = 0;
+                        }
+                        switch (subOp) {
+                            case 1 -> Funcao.ImportarFuncoes(sc);
+                            case 2 -> Funcao.ExportarFuncoes(sc);
+                            case 3 -> voltar = true;
+                            default -> System.out.println("Opcao invalida! Tente novamente");
+                        }
+                    }
+                }
+                case 6 -> sair = true;
                 default -> System.out.println("Opcao invalida! Tente novamente");
             }
         }
@@ -253,7 +318,18 @@ public class SalaryProcessor {
             }
 
             switch (op) {
-                case 1 -> holeriteManager.gerarHolerite(sc);
+                case 1 -> {
+                    if (Colaborador.colaboradores.isEmpty()) {
+                        System.out.println("Nenhum colaborador cadastrado. Cadastre um colaborador antes de gerar holerite.");
+                        break;
+                    }
+                    holeriteManager.gerarHolerite(sc);
+                    System.out.print("Deseja imprimir o holerite agora? (s/n): ");
+                    String resposta = sc.nextLine().trim().toLowerCase();
+                    if (resposta.equals("s")) {
+                        holeriteManager.exportarHolerites(sc);
+                    }
+                }
                 case 2 -> holeriteManager.listarHolerites(sc);
                 case 3 -> sair = true;
                 default -> System.out.println("Opcao invalida! Tente novamente.");
@@ -261,37 +337,4 @@ public class SalaryProcessor {
         }
     }
     
-    private static void submenuRelatorios(Scanner sc) {
-        int op1;
-        boolean sair = false;
-        while (!sair) {
-            System.out.println();
-            System.out.println("=========================================");
-            System.out.println("|         SUBMENU RELATORIOS            |");
-            System.out.println("=========================================");
-            System.out.println("|  1. Lista de Colaboradores            |");
-            System.out.println("|  2. Lista de Holerites                |"); 
-            System.out.println("|  3. Exportar Colaboradores (TXT)      |"); 
-            System.out.println("|  4. Exportar Holerites (TXT)          |"); 
-            System.out.println("|  5. Voltar                            |"); 
-            System.out.println("=========================================");
-            System.out.print("Escolha uma opcao: ");
-            try {
-                op1 = sc.nextInt();
-                sc.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada invalida! Por favor, digite um numero.");
-                sc.nextLine();
-                op1 = 0;
-            }
-            switch (op1) {
-                case 1 -> Colaborador.ImprimirPorOrdemAdmissao();
-                case 2 -> holeriteManager.listarHolerites(sc);
-                case 3 -> Colaborador.ExportarParaTXT(sc);     
-                case 4 -> holeriteManager.exportarHoleritesParaTXT(sc); 
-                case 5 -> sair = true;
-                default -> System.out.println("Opcao invalida! Tente novamente");
-            }
-        }
-    }
 }

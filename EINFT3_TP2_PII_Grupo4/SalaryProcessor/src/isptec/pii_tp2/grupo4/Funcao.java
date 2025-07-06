@@ -3,7 +3,11 @@ package isptec.pii_tp2.grupo4;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Objects; 
+import java.util.Objects;
+import java.io.File;
+import java.io.FileWriter; 
+import java.io.IOException; 
+import java.io.PrintWriter;
 
 public class Funcao {
 
@@ -74,7 +78,7 @@ public class Funcao {
         do {
             System.out.print("Informe o nome da funcao: ");
             nomeFuncao = sc.nextLine();
-            if (!Validador.hasContent(nomeFuncao)) {
+            if (!Validator.hasContent(nomeFuncao)) {
                 System.out.println("O nome da funcao nao pode ser vazio.");
             } else {
                 boolean existe = false;
@@ -87,7 +91,7 @@ public class Funcao {
                 }
                 if (existe) nomeFuncao = "";
             }
-        } while (!Validador.hasContent(nomeFuncao));
+        } while (!Validator.hasContent(nomeFuncao));
         f.setNome(nomeFuncao);
 
         // salario base deve ser > 0
@@ -96,7 +100,7 @@ public class Funcao {
             System.out.print("Informe o salario base (kz): ");
             try {
                 salarioBase = sc.nextDouble();
-                if (!Validador.isValorPositivo(salarioBase)) {
+                if (!Validator.isValorPositivo(salarioBase)) {
                     System.out.println("Salario base deve ser maior que zero.");
                     salarioBase = -1;
                 }
@@ -114,7 +118,7 @@ public class Funcao {
             System.out.print("Informe o bonus (kz): ");
             try {
                 bonus = sc.nextDouble();
-                if (!Validador.isValorPositivo(bonus)) {
+                if (!Validator.isValorPositivo(bonus)) {
                     System.out.println("Bonus deve ser maior que zero.");
                     bonus = -1;
                 }
@@ -148,10 +152,11 @@ public class Funcao {
             codigo = sc.nextInt();
         } catch (Exception e) {
             System.out.println("Entrada invalida para o codigo da funcao.");
-            sc.nextLine(); 
             return false;
         }
-        sc.nextLine();
+        finally{
+            sc.nextLine();
+        }
 
         Funcao funcaoParaRemover = Pesquisar(codigo);
         if (funcaoParaRemover == null) {
@@ -179,16 +184,173 @@ public class Funcao {
         }
 
         System.out.println();
-        System.out.println("============================= LISTA DE FUNCOES =============================");
-        System.out.printf("%-8s | %-22s | %-20s | %-15s |\n", "Codigo", "Nome", "Salario Base (kz)", "Bonus (kz)");
-        System.out.println("-------- | ---------------------- | -------------------- | --------------- |");
+        System.out.println("======================================= LISTA DE FUNCOES =======================================");
+        System.out.printf("%-8s | %-42s | %-20s | %-15s |\n", "Codigo", "Nome", "Salario Base (kz)", "Bonus (kz)");
+        System.out.println("-------- | ------------------------------------------ | -------------------- | --------------- |");
 
         for (Funcao f : funcoes) {
-            System.out.printf("%-8d | %-22s | %-20.2f | %-15.2f |\n",
+            System.out.printf("%-8d | %-42s | %-20.2f | %-15.2f |\n",
                 f.getCodigo(),
                 f.getNome(),
                 f.getSalarioBase(),
                 f.getBonus());
         }
+    }
+    
+    // Mostrar listas de funcoes numa pasta de ficheiros disponiveis para importacao
+    private static boolean ListarArquivosFuncoesDisponiveis(String folderName) {
+        File pasta = new File(folderName);
+        File[] arquivos = pasta.listFiles((_, name) -> name.toLowerCase().endsWith(".csv"));
+        System.out.println("\n======= Arquivos de Funcoes Disponiveis para Importacao =======");
+        if (arquivos == null || arquivos.length == 0) {
+            System.out.println("Nenhum arquivo CSV de funcoes encontrado na pasta atual.");
+            return false;
+        }
+        for (File arquivo : arquivos) {
+            System.out.println("- " + arquivo.getName());
+        }
+        return true;
+    }
+
+    // Adicionar uma funcao para importar funcoes de um arquivo csv
+    public static void ImportarFuncoes(Scanner sc) {
+        String folderName = "exports/funcoes/";
+        if (!ListarArquivosFuncoesDisponiveis(folderName))
+            return;
+        System.out.print("Informe o nome do arquivo para importar funcoes: ");
+        String caminhoArquivo = sc.nextLine().trim();
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
+            System.out.println("Caminho do arquivo invalido.");
+            return;
+        }
+        caminhoArquivo = folderName + caminhoArquivo;
+        if (!caminhoArquivo.toLowerCase().endsWith(".csv")) {
+            caminhoArquivo += ".csv";
+        }
+        try {
+            File arquivo = new File(caminhoArquivo);
+            if (!arquivo.exists()) {
+                System.out.println("Arquivo nao encontrado: " + caminhoArquivo);
+                return;
+            }
+            
+            Scanner scanner = new Scanner(arquivo);
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                String[] partes = linha.split(";");
+                
+                if (partes.length != 4) {
+                    System.out.println("Linha invalida no arquivo: " + linha);
+                    continue;
+                }
+                
+                Funcao funcao = new Funcao();
+                funcao.setCodigo(Integer.parseInt(partes[0].trim()));
+                funcao.setNome(partes[1].trim());
+                funcao.setSalarioBase(Double.parseDouble(partes[2].trim()));
+                funcao.setBonus(Double.parseDouble(partes[3].trim()));
+                
+                funcoes.add(funcao);
+            }
+            scanner.close();
+            System.out.println("Funcoes importadas com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter dados do arquivo: " + e.getMessage());
+        }
+    }
+ 
+    // Adicionar uma funcao para exportar funcoes para um arquivo csv
+    public static void ExportarFuncoes(Scanner sc) {
+        if (funcoes.isEmpty()) {
+            System.out.println("Nenhuma funcao cadastrada para exportar.");
+            return;
+        }
+        String folderName = "exports/funcoes/";
+        File pasta = new File(folderName);
+        if (!pasta.exists()) {
+            pasta.mkdirs();
+        }
+        System.out.print("Informe o nome do arquivo para exportar funcoes: ");
+        String caminhoArquivo = sc.nextLine().trim();
+        if (!Validator.isNomeArquivoValido(caminhoArquivo)) {
+            System.out.println("Caminho do arquivo invalido.");
+            return;
+        }
+        caminhoArquivo = folderName + caminhoArquivo;
+        if (!caminhoArquivo.toLowerCase().endsWith(".csv")) {
+            caminhoArquivo += ".csv";
+        }
+        File arquivo = new File(caminhoArquivo);
+        if (arquivo.exists()) {
+            System.out.print("Arquivo ja existe. Deseja sobrescrever? (s/n): ");
+            String resposta = sc.nextLine().trim().toLowerCase();
+            if (!resposta.equals("s")) {
+                System.out.println("Exportacao cancelada.");
+                return;
+            }
+        }
+        try (PrintWriter writer = new PrintWriter(new FileWriter(caminhoArquivo))) {
+            for (Funcao f : funcoes) {
+                writer.printf("%d;%s;%.2f;%.2f%n", f.getCodigo(), f.getNome(), f.getSalarioBase(), f.getBonus());
+            }
+            System.out.println("Funcoes exportadas com sucesso para " + caminhoArquivo);
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+        }
+    }
+    public static void Actualizar(Scanner sc) {
+        Imprimir();
+        System.out.print("Informe o codigo da funcao a atualizar: ");
+        int codigo;
+        try {
+            codigo = sc.nextInt();
+        } catch (Exception e) {
+            System.out.println("Entrada invalida para o codigo da funcao.");
+            sc.nextLine();
+            return;
+        }
+        sc.nextLine();
+        Funcao funcao = Pesquisar(codigo);
+        if (funcao == null) {
+            System.out.println("Funcao nao encontrada.");
+            return;
+        }
+        System.out.println("Atualizando funcao: " + funcao.getNome());
+        System.out.print("Novo nome (" + funcao.getNome() + "): ");
+        String nome = sc.nextLine();
+        if (Validator.hasContent(nome)) {
+            funcao.setNome(nome);
+        }
+        System.out.print("Novo salario base (" + funcao.getSalarioBase() + "): ");
+        String salarioStr = sc.nextLine();
+        if (Validator.hasContent(salarioStr)) {
+            try {
+                double salario = Double.parseDouble(salarioStr);
+                if (Validator.isValorPositivo(salario)) {
+                    funcao.setSalarioBase(salario);
+                } else {
+                    System.out.println("Salario base deve ser maior que zero. Mantendo valor anterior.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Valor invalido. Mantendo valor anterior.");
+            }
+        }
+        System.out.print("Novo bonus (" + funcao.getBonus() + "): ");
+        String bonusStr = sc.nextLine();
+        if (Validator.hasContent(bonusStr)) {
+            try {
+                double bonus = Double.parseDouble(bonusStr);
+                if (Validator.isValorPositivo(bonus)) {
+                    funcao.setBonus(bonus);
+                } else {
+                    System.out.println("Bonus deve ser maior que zero. Mantendo valor anterior.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Valor invalido. Mantendo valor anterior.");
+            }
+        }
+        System.out.println("Funcao atualizada com sucesso!");
     }
 }
