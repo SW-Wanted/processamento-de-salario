@@ -186,10 +186,12 @@ public class SalaryProcessor {
                 }
                 case 5 -> {
                     Colaborador.ListarColaboradores();
-                    System.out.print("Deseja imprimir os colaboradores? (s/n): ");
-                    String resposta = sc.nextLine().trim().toLowerCase();
-                    if (resposta.equals("s")) {
-                        Colaborador.ImprimirColaboradores(sc);
+                    if (!Colaborador.colaboradores.isEmpty()) {
+                        System.out.print("Deseja imprimir os colaboradores? (s/n): ");
+                        String resposta = sc.nextLine().trim().toLowerCase();
+                        if (resposta.equals("s")) {
+                            Colaborador.ImprimirColaboradores(sc);
+                        }
                     }
                 }
                 case 6 -> sair = true;
@@ -260,6 +262,10 @@ public class SalaryProcessor {
 
             switch (op) {
                 case 1 -> {
+                    if (Colaborador.colaboradores.isEmpty()) {
+                        System.out.println("Nenhum colaborador cadastrado. Cadastre um colaborador antes de gerar holerite.");
+                        break;
+                    }
                     holeriteManager.gerarHolerite(sc);
                     System.out.print("Deseja imprimir o holerite agora? (s/n): ");
                     String resposta = sc.nextLine().trim().toLowerCase();
